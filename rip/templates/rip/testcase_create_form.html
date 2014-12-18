@@ -6,11 +6,28 @@
 <h2>{{add_edit}} Testcase</h2>
 <form action="" method="post">{% csrf_token %}
 	<table class="table table-condensed">
-	{{ form.as_table }}
+		{% for field in form %}
+		<tr class="fieldWrapper">
+			<td>{{ field.label_tag }}</td>
+			<td>
+				{% if forloop.counter == 4 %}
+				<div id="jsoneditor" style="width: 400px; height: 400px; border:1px solid silver;">
+				</div>
+				<button id="use-json" class="btn btn-info">Use this JSON</button><br>
+				{% endif %}
+				{{ field }} {{ field.errors }}
+			</td>
+		</tr>
+		{% endfor %}
+	</table>
+	<h3>Conditions</h3>
+	<table class="table table-condensed">
+	{{ condition_formset.as_table }}
 	</table>
 	<br>
 	<input class="btn btn-success" type="submit" value="Submit" />
 </form>
+<br>
 {% endblock content%}
 
 

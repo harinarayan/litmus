@@ -5,6 +5,7 @@ from rip.views import OperationDetailView
 from rip.views import ServiceCreateView, OperationCreateView, TestCaseCreateView
 from rip.views import ServiceUpdateView, OperationUpdateView, TestCaseUpdateView
 from rip.views import ServiceDeleteView, OperationDeleteView, TestCaseDeleteView
+from rip.views import submit_testcase
 
 urlpatterns = patterns('',
     url(r'^$', ServiceListView.as_view(), name='service-list'),
@@ -21,8 +22,8 @@ urlpatterns = patterns('',
     url(r'^service/(?P<id>\d+)/operation/(?P<pk>\d+)/delete/?$', OperationDeleteView.as_view(), name='operation-delete'),
 
     url(r'^service/(?P<id>\d+)/operation/(?P<operation_id>\d+)/testcase/?$', TestCaseListView.as_view(), name='testcase-list'),
-    url(r'^service/(?P<id>\d+)/operation/(?P<operation_id>\d+)/testcase/create/?$', TestCaseCreateView.as_view(), name='testcase-create'),
-    url(r'^service/(?P<id>\d+)/operation/(?P<operation_id>\d+)/testcase/(?P<pk>\d+)/update/?$', TestCaseUpdateView.as_view(), name='testcase-update'),
+    url(r'^service/(?P<id>\d+)/operation/(?P<operation_id>\d+)/testcase/create/?$', submit_testcase, name='testcase-create'),
+    url(r'^service/(?P<id>\d+)/operation/(?P<operation_id>\d+)/testcase/(?P<pk>\d+)/update/?$', submit_testcase, name='testcase-update'),
     url(r'^service/(?P<id>\d+)/operation/(?P<operation_id>\d+)/testcase/(?P<pk>\d+)/delete/?$', TestCaseDeleteView.as_view(), name='testcase-delete'),
 )
 

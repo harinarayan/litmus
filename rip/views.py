@@ -1,15 +1,20 @@
 from django.utils import timezone
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
+
+from django.views.decorators.csrf import csrf_protect
 
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from rip.models import Service, Operation, TestCase
+from rip.models import Service, Operation, TestCase, Condition
 
 from django import forms
+from django.forms.models import inlineformset_factory
+
+from django.template import RequestContext
 
 
 # Service views
@@ -117,6 +122,41 @@ class TestCaseListView(ListView):
 		context['service_id'] = self.kwargs['id']
 		context['operation_id'] = self.kwargs['operation_id']
 		return context
+
+class TestCaseForm(forms.ModelForm):
+	class Meta:
+		model = TestCase
+		fields = ['operation', 'name', 'url_kwargs', 'input', 'exp_http_response']
+
+MAX_CONDITIONS = 10
+ConditionFormSet = inlineformset_factory(TestCase, 
+	    Condition, 
+	    can_delete=True,
+	    extra=MAX_CONDITIONS)
+
+def submit_testcase(request, *args, **kwargs):
+	condition_formset = None
+	if request.POST:
+		form = TestCaseForm(request.POST)
+		if form.is_valid():
+			testcase = form.save(commit=False)
+			condition_formset = ConditionFormSet(request.POST, instance=testcase)
+			if condition_formset.is_valid():
+				testcase.save()
+				condition_formset.save()                
+				return HttpResponseRedirect(reverse('testcase-list', kwargs={'id':kwargs['id'], 'operation_id':kwargs['operation_id']}))
+	else:
+		if 'pk' in kwargs:
+			testcase = TestCase.objects.get(pk=kwargs['pk'])
+			form = TestCaseForm(instance=testcase)
+		else:
+			form = TestCaseForm()
+			testcase = TestCase()
+		condition_formset = ConditionFormSet(instance=testcase)
+	return render_to_response("rip/testcase_create_form.html", {
+		"form": form,
+		"condition_formset": condition_formset,
+	}, context_instance=RequestContext(request))
 
 class TestCaseCreateView(CreateView):
 	model = TestCase
