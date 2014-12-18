@@ -166,6 +166,9 @@ def submit_testcase(request, *args, **kwargs):
 		"operation":Operation.objects.get(pk=kwargs['operation_id']),
 	}, context_instance=RequestContext(request))
 
+def run_testcase(request, *args, **kwargs):
+	return HttpResponse()
+
 class TestCaseCreateView(CreateView):
 	model = TestCase
 	template_name_suffix = '_create_form'

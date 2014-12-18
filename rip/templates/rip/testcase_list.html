@@ -20,6 +20,8 @@ thead {
 			<td>Name</td>
 			<td>Input</td>
 			<td>Expected HTTP Response</td>
+			<td>Run</td>
+			<td>Result</td>
 			<td></td>
 		</tr>
 	</thead>
@@ -30,6 +32,11 @@ thead {
 			<td>{{testcase.name}}</td>
 			<td>{{testcase.input|truncatechars:200}}</td>
 			<td>{{testcase.exp_http_response}}</td>
+			<td>
+				<a class="btn btn-info btn-xs btn-run-tc" href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase/{{testcase.id}}/run">Run</a>
+			</td>
+			<td class="tc-result">
+			</td>
 			<td>
 				<a class="btn btn-warning btn-xs" href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase/{{testcase.id}}/update">Edit</a>
 				<a class="btn btn-danger btn-xs" href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase/{{testcase.id}}/delete">Delete</a>
