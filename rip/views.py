@@ -114,17 +114,53 @@ class TestCaseListView(ListView):
 	def get_context_data(self, **kwargs):
 		context = super(TestCaseListView, self).get_context_data(**kwargs)
 		context['now'] = timezone.now()
+		context['service_id'] = self.kwargs['id']
+		context['operation_id'] = self.kwargs['operation_id']
 		return context
 
+class TestCaseCreateView(CreateView):
+	model = TestCase
+	template_name_suffix = '_create_form'
+	#success_url = '/rip/service/%(service_id)s/operation/'
+	
+	def get_context_data(self, **kwargs):
+		context = super(TestCaseCreateView, self).get_context_data(**kwargs)
+		context['now'] = timezone.now()
+		context['add_edit'] = "Add"
+		return context
 
-def add_testcase(request):
-	return HttpResponse("")
+	def get_success_url(self):
+		operation = Operation.objects.get(pk = self.object.operation_id)
+		service_id = operation.service_id
+		success_url = '/rip/service/' + str(service_id) + '/operation/' + str(operation.id) + '/testcase'
+		return success_url
+	
+class TestCaseUpdateView(UpdateView):
+	model = TestCase
+	template_name = 'rip/testcase_create_form.html'
+	success_url = '/rip/service/%(service_id)s/operation/'
 
-def edit_testcase(request):
-	return HttpResponse("")
+	def get_context_data(self, **kwargs):
+		context = super(TestCaseUpdateView, self).get_context_data(**kwargs)
+		context['now'] = timezone.now()
+		context['add_edit'] = "Edit"
+		return context
 
-def delete_testcase(request):
-	return HttpResponse("")
+	def get_success_url(self):
+		operation = Operation.objects.get(pk = self.object.operation_id)
+		service_id = operation.service_id
+		success_url = '/rip/service/' + str(service_id) + '/operation/' + str(operation.id) + '/testcase'
+		return success_url
+
+class TestCaseDeleteView(DeleteView):
+	model = TestCase
+	#success_url = '/rip/service/%(service_id)s/operation/'
+
+	def get_success_url(self):
+		operation = Operation.objects.get(pk = self.object.operation_id)
+		service_id = operation.service_id
+		success_url = '/rip/service/' + str(service_id) + '/operation/' + str(operation.id) + '/testcase'
+		return success_url
 
 def test_testcase(request):
 	return HttpResponse("")

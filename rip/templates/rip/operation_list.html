@@ -12,7 +12,7 @@ thead {
 {% endblock styles %}
 
 {% block content %}
-<h2>Operations</h2>
+<h2>Operations for service : {{service_id}}</h2>
 <table class="table table-striped table-condensed">
 	<thead>
 		<tr>
@@ -28,7 +28,7 @@ thead {
 	{% for operation in object_list %}
 		<tr>
 			<td>{{operation.id}}</td>
-			<td><a href="operation/{{operation.id}}/testcase">{{operation.name}}</a></td>
+			<td><a href="/rip/service/{{service_id}}/operation/{{operation.id}}/testcase">{{operation.name}}</a></td>
 			<td>{{operation.url}}</td>
 			<td>{{operation.sample_json|truncatechars:200 }}</td>
 			<td>
