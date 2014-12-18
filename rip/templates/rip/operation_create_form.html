@@ -1,16 +1,59 @@
 {% extends "base.html" %}
 
+{% load staticfiles %}
+
 {% block title %} Operations {% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{% static 'jsoneditor/jsoneditor.min.css' %}"/>
+{% endblock styles %}
 
 {% block content %}
 <h2>Add a new operation</h2>
 <form action="" method="post">{% csrf_token %}
 	<table class="table table-condensed">
-	{{ form.as_table }}
+		{% for field in form %}
+		<tr class="fieldWrapper">
+			<td>{{ field.label_tag }}</td>
+			<td>
+				{% if forloop.counter == 5 %}
+				<div id="jsoneditor" style="width: 400px; height: 400px; border:1px solid silver;">
+				</div>
+				<button id="use-json" class="btn btn-info">Use this JSON</button><br>
+				{% endif %}
+				{{ field }} {{ field.errors }}
+			</td>
+		</tr>
+		{% endfor %}
 	</table>
 	<br>
 	<input class="btn btn-success" type="submit" value="Add" />
 </form>
+<br>
+<br>
 {% endblock content%}
+
+{% block scripts %}
+<script type="text/javascript" src="{% static 'jsoneditor/jsoneditor.min.js' %}"></script>
+<script>
+$(function() {
+	var editor = new JSONEditor(document.getElementById("jsoneditor"))
+	var starter_json = {
+			'haha': 89,
+		};
+	if($('#id_sample_json').text() !== ""){
+		starter_json = JSON.parse($('#id_sample_json').text());
+	}
+	editor.set(starter_json);
+	
+	$('#use-json').click(function(e){
+		var json = editor.get();
+		$('#id_sample_json').text(JSON.stringify(json));
+		e.preventDefault();
+	});
+});
+	
+</script>
+{% endblock scripts %}
 
 

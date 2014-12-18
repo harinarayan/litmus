@@ -82,8 +82,9 @@ class OperationCreateView(CreateView):
 def edit_operation(request):
 	return HttpResponse("")
 
-def delete_operation(request):
-	return HttpResponse("")
+class OperationDeleteView(DeleteView):
+	model = Operation
+	success_url = '/rip/service/%(service_id)s/operation/'
 
 def test_operation(request):
 	return HttpResponse("")

@@ -11,7 +11,9 @@
 			<td><a href="operation/{{operation.id}}/testcase">{{operation.name}}</a></td>
 			<td>{{operation.url}}</td>
 			<td>{{operation.sample_json}}</td>
-			
+			<td>
+				<a class="btn btn-danger btn-xs" href="/rip/service/{{service_id}}/operation/{{operation.id}}/delete">Delete</a>
+			</td>	
 		</tr>
 	{% empty %}
 		<em>No Operations!</em>
