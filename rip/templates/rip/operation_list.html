@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %} Operations {% endblock %}
+
+{% block content %}
+<h2>Operations</h2>
+<table class="table table-striped table-condensed">
+	{% for operation in object_list %}
+		<tr>
+			<td>{{operation.name}}</td>
+			<td>{{operation.url}}</td>
+			<td>{{operation.sample_json}}</td>
+			
+		</tr>
+	{% endfor %}
+</table>
+{% endblock content%}

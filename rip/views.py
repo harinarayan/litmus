@@ -14,9 +14,6 @@ class ServiceListView(ListView):
 		context['now'] = timezone.now()
 		return context
 
-def list_services(request):
-	return render(request, 'rip/list.html', {'name':'hey'})
-
 def add_service(request):
 	return HttpResponse("")
 
@@ -31,8 +28,14 @@ def test_service(request):
 
 
 # Operation views
-def list_operations(request):
-	return HttpResponse("")
+class OperationListView(ListView):
+	model = Operation
+	
+	def get_context_data(self, **kwargs):
+		context = super(OperationListView, self).get_context_data(**kwargs)
+		context['now'] = timezone.now()
+		return context
+
 
 def add_operation(request):
 	return HttpResponse("")
