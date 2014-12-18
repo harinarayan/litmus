@@ -57,6 +57,7 @@ class OperationListView(ListView):
 	def get_context_data(self, **kwargs):
 		context = super(OperationListView, self).get_context_data(**kwargs)
 		context['now'] = timezone.now()
+		context['service_id'] = self.kwargs['id']
 		return context
 
 class OperationDetailView(DetailView):
@@ -67,8 +68,16 @@ class OperationDetailView(DetailView):
 		context['now'] = timezone.now()
 		return context
 
-def add_operation(request):
-	return HttpResponse("")
+class OperationForm(forms.ModelForm):
+	class Meta:
+		model = Operation
+		fields = ['name', 'url']
+
+class OperationCreateView(CreateView):
+	model = Operation
+	#form_class = OperationForm
+	template_name_suffix = '_create_form'
+	success_url = '/rip/service/%(service_id)s/operation/'
 
 def edit_operation(request):
 	return HttpResponse("")
