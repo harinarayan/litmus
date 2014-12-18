@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from rip.models import Service, Operation, TestCase
 
 # Service views
@@ -40,6 +41,13 @@ class OperationListView(ListView):
 		context['now'] = timezone.now()
 		return context
 
+class OperationDetailView(DetailView):
+	model = Operation
+
+	def get_context_data(self, **kwargs):
+		context = super(OperationDetailView, self).get_context_data(**kwargs)
+		context['now'] = timezone.now()
+		return context
 
 def add_operation(request):
 	return HttpResponse("")
