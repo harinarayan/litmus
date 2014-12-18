@@ -20,3 +20,14 @@ class TestCase(models.Model):
 	exp_http_response = models.IntegerField(default = 200)
 	exp_output = models.CharField(max_length=400000)
 	
+class Condition(models.Model):
+	testcase = models.ForeignKey(TestCase)
+	field = models.CharField(max_length=10000)
+	OPERATOR_CHOICE = (
+		('EQ', 'EQ'),
+		('NE', 'NE'),
+		('IN', 'IN'),
+		('NI', 'NOT IN')
+	)
+	operator = models.CharField(max_length=19, choices=OPERATOR_CHOICE, default='EQ')
+	value = models.CharField(max_length=1000)
