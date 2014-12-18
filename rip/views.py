@@ -30,6 +30,10 @@ def test_service(request):
 # Operation views
 class OperationListView(ListView):
 	model = Operation
+
+	def get_queryset(self):
+		queryset = Operation.objects.all().filter(service_id = self.kwargs['id'])
+		return queryset
 	
 	def get_context_data(self, **kwargs):
 		context = super(OperationListView, self).get_context_data(**kwargs)
@@ -51,8 +55,18 @@ def test_operation(request):
 
 
 # TestCase views
-def list_testcases(request):
-	return HttpResponse("")
+class TestCaseListView(ListView):
+	model = TestCase
+	
+	def get_queryset(self):
+		queryset = TestCase.objects.all().filter(operation_id = self.kwargs['operation_id'])
+		return queryset
+
+	def get_context_data(self, **kwargs):
+		context = super(TestCaseListView, self).get_context_data(**kwargs)
+		context['now'] = timezone.now()
+		return context
+
 
 def add_testcase(request):
 	return HttpResponse("")

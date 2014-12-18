@@ -7,11 +7,14 @@
 <table class="table table-striped table-condensed">
 	{% for operation in object_list %}
 		<tr>
-			<td>{{operation.name}}</td>
+			<td>{{operation.id}}</td>
+			<td><a href="operation/{{operation.id}}/testcase">{{operation.name}}</a></td>
 			<td>{{operation.url}}</td>
 			<td>{{operation.sample_json}}</td>
 			
 		</tr>
+	{% empty %}
+		<em>No Operations!</em>
 	{% endfor %}
 </table>
 {% endblock content%}
