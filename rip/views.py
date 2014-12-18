@@ -167,6 +167,7 @@ def submit_testcase(request, *args, **kwargs):
 		"service_id":kwargs['id'],
 		"operation_id":kwargs['operation_id'],
 		"operation":Operation.objects.get(pk=kwargs['operation_id']),
+		"testcase_id":testcase.id,
 	}, context_instance=RequestContext(request))
 
 def run_testcase(request, *args, **kwargs):

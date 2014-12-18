@@ -22,7 +22,9 @@
 			<td>{{ field.label_tag }}</td>
 			<td>
 				{% if forloop.counter == 3 %}
-				Operation URL : {{operation.url}}
+				Operation URL : {{operation.url}} 
+				<br>
+				<small>In the below text box provide a json with placeholders as keys and their values.</small>
 				<br>
 				{% endif %}
 
@@ -36,35 +38,38 @@
 			</td>
 		</tr>
 		{% endfor %}
-	</table>
-	<h3>Result Test Conditions</h3>
-	
-	{{ condition_formset.management_form }}
-	{{ condition_formset.non_form_errors.as_ul }}
-	<table id="formset" class="form">
-	{% for form in condition_formset.forms %}
-		{% if forloop.first %}
-			<thead><tr>
-			{% for field in form.visible_fields %}
-			<th>{{ field.label|capfirst }}</th>
-			{% endfor %}
-			</tr></thead>
-		{% endif %}
-		<tr class="{% cycle row1,row2 %}">
-		{% for field in form.visible_fields %}
+		<tr>
+			<td><strong>Expected Output:</strong></td>
 			<td>
-			{# Include the hidden fields in the form #}
-			{% if forloop.first %}
-				{% for hidden in form.hidden_fields %}
-				{{ hidden }}
+				{{ condition_formset.management_form }}
+				{{ condition_formset.non_form_errors.as_ul }}
+				<table id="formset" class="form">
+				{% for form in condition_formset.forms %}
+					{% if forloop.first %}
+						<thead><tr>
+						{% for field in form.visible_fields %}
+						<th>{{ field.label|capfirst }}</th>
+						{% endfor %}
+						</tr></thead>
+					{% endif %}
+					<tr class="{% cycle row1,row2 %}">
+					{% for field in form.visible_fields %}
+						<td>
+						{# Include the hidden fields in the form #}
+						{% if forloop.first %}
+							{% for hidden in form.hidden_fields %}
+							{{ hidden }}
+							{% endfor %}
+						{% endif %}
+						{{ field.errors.as_ul }}
+						{{ field }}
+						</td>
+					{% endfor %}
+					</tr>
 				{% endfor %}
-			{% endif %}
-			{{ field.errors.as_ul }}
-			{{ field }}
+				</table>
 			</td>
-		{% endfor %}
 		</tr>
-	{% endfor %}
 	</table>
 
 
@@ -72,7 +77,11 @@
 	<input class="btn btn-success" type="submit" value="Submit" />
 </form>
 <br>
-<a href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase">Go back to testcases</a>
+<br>
+You may 
+<a class="btn btn-info btn-xs" href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase/{{testcase_id}}/run"> Run this cestcase </a>
+ or 
+<a href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase"> go back to see all testcases</a>
 <br>
 <br>
 {% endblock content%}
