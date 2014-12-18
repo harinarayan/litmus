@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 
 from rip.models import Service, Operation, TestCase
 
@@ -21,10 +21,10 @@ class ServiceListView(ListView):
 		context['now'] = timezone.now()
 		return context
 
-class ServiceForm(forms.ModelForm):
-	class Meta:
-		model = Service
-		fields = ['name', 'host', 'port']
+#class ServiceForm(forms.ModelForm):
+	#class Meta:
+		#model = Service
+		#fields = ['name', 'host', 'port']
 
 class ServiceCreateView(CreateView):
 	model = Service
@@ -32,8 +32,11 @@ class ServiceCreateView(CreateView):
 	#form_class = ServiceForm
 	success_url = '/rip/service'
 
-def edit_service(request):
-	return HttpResponse("")
+class ServiceUpdateView(UpdateView):
+	model = Service
+	template_name_suffix = '_update_form'
+	#form_class = ServiceForm
+	success_url = '/rip/service'
 
 def delete_service(request):
 	return HttpResponse("")
