@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 
+{% load staticfiles %}
+
 {% block title %} Testcases {% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{% static 'jsoneditor/jsoneditor.min.css' %}"/>
+{% endblock styles %}
 
 {% block content %}
 <h2>{{add_edit}} Testcase</h2>
@@ -25,10 +31,37 @@
 	<table class="table table-condensed">
 	{{ condition_formset.as_table }}
 	</table>
+
 	<br>
 	<input class="btn btn-success" type="submit" value="Submit" />
 </form>
 <br>
+<a href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase">Go back to testcases</a>
+<br>
+<br>
 {% endblock content%}
+
+{% block scripts %}
+<script type="text/javascript" src="{% static 'jsoneditor/jsoneditor.min.js' %}"></script>
+<script>
+$(function() {
+	var editor = new JSONEditor(document.getElementById("jsoneditor"))
+	var starter_json = {
+			'haha': 89,
+		};
+	if($('#id_input').text() !== ""){
+		starter_json = JSON.parse($('#id_input').text());
+	}
+	editor.set(starter_json);
+
+	$('#use-json').click(function(e){
+		var json = editor.get();
+		$('#id_input').text(JSON.stringify(json));
+		e.preventDefault();
+	});
+});
+
+</script>
+{% endblock scripts %}
 
 

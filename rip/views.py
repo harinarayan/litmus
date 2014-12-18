@@ -130,9 +130,10 @@ class TestCaseForm(forms.ModelForm):
 
 MAX_CONDITIONS = 10
 ConditionFormSet = inlineformset_factory(TestCase, 
-	    Condition, 
-	    can_delete=True,
-	    extra=MAX_CONDITIONS)
+		Condition, 
+		can_delete=True,
+		extra=1,
+		max_num=10)
 
 def submit_testcase(request, *args, **kwargs):
 	condition_formset = None
@@ -148,7 +149,7 @@ def submit_testcase(request, *args, **kwargs):
 			if condition_formset.is_valid():
 				testcase.save()
 				condition_formset.save()                
-				return HttpResponseRedirect(reverse('testcase-list', kwargs={'id':kwargs['id'], 'operation_id':kwargs['operation_id']}))
+				return HttpResponseRedirect(reverse('testcase-update', kwargs={'id':kwargs['id'], 'operation_id':kwargs['operation_id'], 'pk':testcase.id}))
 	else:
 		if 'pk' in kwargs:
 			testcase = TestCase.objects.get(pk=kwargs['pk'])
@@ -160,6 +161,8 @@ def submit_testcase(request, *args, **kwargs):
 	return render_to_response("rip/testcase_create_form.html", {
 		"form": form,
 		"condition_formset": condition_formset,
+		"service_id":kwargs['id'],
+		"operation_id":kwargs['operation_id'],
 	}, context_instance=RequestContext(request))
 
 class TestCaseCreateView(CreateView):
