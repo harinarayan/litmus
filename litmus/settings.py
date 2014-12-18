@@ -53,6 +53,7 @@ ROOT_URLCONF = 'litmus.urls'
 
 WSGI_APPLICATION = 'litmus.wsgi.application'
 
+TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases

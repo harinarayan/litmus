@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 
 # Service views
 def list_services(request):
-	return HttpResponse("")
+	return render(request, 'rip/list.html', {'name':'hey'})
 
 def add_service(request):
 	return HttpResponse("")

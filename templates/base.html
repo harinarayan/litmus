@@ -1,0 +1,26 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.min.css' %}" />
+	<style type="text/css">
+		.sdfsdfa { color: rgb(230, 100, 180) }
+	</style>
+	{% block styles %}
+	{% endblock styles %}
+	<title>{% block title %}Litmus{% endblock %}</title>
+</head>
+<body>
+	<h1>REST in peace</h1>
+	<div id="content">
+	{% block content %}{% endblock %}
+	</div>
+
+	<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'jquery/jquery-2.1.1.min.js' %}"></script>
+	{% block scripts %}
+	{% endblock scripts %}
+</body>
+</html>
