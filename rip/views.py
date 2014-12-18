@@ -140,6 +140,10 @@ def submit_testcase(request, *args, **kwargs):
 		form = TestCaseForm(request.POST)
 		if form.is_valid():
 			testcase = form.save(commit=False)
+
+			if 'pk' in kwargs:
+				testcase.id = kwargs['pk']
+
 			condition_formset = ConditionFormSet(request.POST, instance=testcase)
 			if condition_formset.is_valid():
 				testcase.save()
