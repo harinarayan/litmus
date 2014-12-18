@@ -75,12 +75,25 @@ class OperationForm(forms.ModelForm):
 
 class OperationCreateView(CreateView):
 	model = Operation
-	#form_class = OperationForm
 	template_name_suffix = '_create_form'
 	success_url = '/rip/service/%(service_id)s/operation/'
+	
+	def get_context_data(self, **kwargs):
+		context = super(OperationCreateView, self).get_context_data(**kwargs)
+		context['now'] = timezone.now()
+		context['add_edit'] = "Add"
+		return context
 
-def edit_operation(request):
-	return HttpResponse("")
+class OperationUpdateView(UpdateView):
+	model = Operation
+	template_name = 'rip/operation_create_form.html'
+	success_url = '/rip/service/%(service_id)s/operation/'
+
+	def get_context_data(self, **kwargs):
+		context = super(OperationUpdateView, self).get_context_data(**kwargs)
+		context['now'] = timezone.now()
+		context['add_edit'] = "Edit"
+		return context
 
 class OperationDeleteView(DeleteView):
 	model = Operation
