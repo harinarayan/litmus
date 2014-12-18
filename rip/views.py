@@ -140,12 +140,15 @@ ConditionFormSet = inlineformset_factory(TestCase,
 
 def submit_testcase(request, *args, **kwargs):
 	condition_formset = None
-	if request.POST:
+	testcase = None
+	operation = Operation.objects.get(pk=kwargs['operation_id'])
+
+	if request.POST: #Create or Update case, actual operation
 		form = TestCaseForm(request.POST)
 		if form.is_valid():
 			testcase = form.save(commit=False)
 
-			if 'pk' in kwargs:
+			if 'pk' in kwargs: # Update Case
 				testcase.id = kwargs['pk']
 
 			condition_formset = ConditionFormSet(request.POST, instance=testcase)
@@ -153,21 +156,24 @@ def submit_testcase(request, *args, **kwargs):
 				testcase.save()
 				condition_formset.save()                
 				return HttpResponseRedirect(reverse('testcase-update', kwargs={'id':kwargs['id'], 'operation_id':kwargs['operation_id'], 'pk':testcase.id}))
-	else:
-		if 'pk' in kwargs:
+	else: # Create or Update, show form 
+		if 'pk' in kwargs: # Update form
 			testcase = TestCase.objects.get(pk=kwargs['pk'])
 			form = TestCaseForm(instance=testcase)
 		else:
 			form = TestCaseForm()
+			form.fields['input'].initial=(operation.sample_json) #Get sample input from Operation and put it here.
 			testcase = TestCase()
+
 		condition_formset = ConditionFormSet(instance=testcase)
+
 	return render_to_response("rip/testcase_create_form.html", {
 		"form": form,
 		"condition_formset": condition_formset,
 		"service_id":kwargs['id'],
 		"operation_id":kwargs['operation_id'],
 		"operation":Operation.objects.get(pk=kwargs['operation_id']),
-		"testcase_id":testcase.id,
+		"testcase_id":testcase.id if testcase else None,
 	}, context_instance=RequestContext(request))
 
 def run_testcase(request, *args, **kwargs):

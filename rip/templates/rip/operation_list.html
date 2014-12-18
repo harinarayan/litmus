@@ -8,18 +8,22 @@ thead {
 	background-color:gray;
 	color:white;
 }
+.json {
+	word-wrap: break-word;
+}
 </style>
 {% endblock styles %}
 
 {% block content %}
 <h2>Operations for service : {{service_id}}</h2>
-<table class="table table-striped table-condensed">
+<table class="table table-striped table-condensed" style="table-layout:fixed">
 	<thead>
 		<tr>
 			<td>Id</td>
 			<td>Name</td>
 			<td>URL</td>
-			<td>Input Template</td>
+			<td>Method</td>
+			<td class="col-md-4">Input Template</td>
 			<td>
 			</td>	
 		</tr>
@@ -30,7 +34,8 @@ thead {
 			<td>{{operation.id}}</td>
 			<td><a href="/rip/service/{{service_id}}/operation/{{operation.id}}/testcase">{{operation.name}}</a></td>
 			<td>{{operation.url}}</td>
-			<td>{{operation.sample_json|truncatechars:200 }}</td>
+			<td>{{operation.method}}</td>
+			<td class="col-md-4 json">{{operation.sample_json|truncatechars:200 }}</td>
 			<td>
 				<a class="btn btn-warning btn-xs" href="/rip/service/{{service_id}}/operation/{{operation.id}}/update">Edit</a>
 				<a class="btn btn-danger btn-xs" href="/rip/service/{{service_id}}/operation/{{operation.id}}/delete">Delete</a>

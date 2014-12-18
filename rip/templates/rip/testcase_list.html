@@ -8,17 +8,20 @@ thead {
 	background-color:gray;
 	color:white;
 }
+.json {
+	word-wrap: break-word;
+}
 </style>
 {% endblock styles %}
 
 {% block content %}
 <h2>TestCases for Operation : {{operation_id}}</h2>
-<table class="table table-striped table-condensed">
+<table class="table table-striped table-condensed" style="table-layout:fixed">
 	<thead>
 		<tr>
 			<td>ID</td>
 			<td>Name</td>
-			<td>Input</td>
+			<td class="col-md-4 json">Input</td>
 			<td>Expected HTTP Response</td>
 			<td>Run</td>
 			<td>Result</td>
@@ -30,7 +33,7 @@ thead {
 		<tr>
 			<td>{{testcase.id}}</td>
 			<td>{{testcase.name}}</td>
-			<td>{{testcase.input|truncatechars:200}}</td>
+			<td class="col-md-4 json">{{testcase.input|truncatechars:200}}</td>
 			<td>{{testcase.exp_http_response}}</td>
 			<td>
 				<a class="btn btn-info btn-xs btn-run-tc" href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase/{{testcase.id}}/run">Run</a>
