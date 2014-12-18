@@ -14,8 +14,14 @@
 </head>
 <body>
 	<div class="container">
-		<h1> LITMUS | REST in peace</h1>
-		{% block content %}{% endblock %}
+		<div class="row">
+			<h1 class="col-md-2 text-right" style="background-color:salmon;height:47px;"> LITMUS </h1>
+			<h1 class="col-md-3 text-left" style="background-color:deepskyblue;height:47px"> REST in peace</h1>
+		</div>
+		<br>
+		{% block content %}
+		Booo!
+		{% endblock %}
 	</div>
 
 	<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
