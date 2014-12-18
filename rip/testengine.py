@@ -73,6 +73,7 @@ class Evaluate:
 
 		tc_url_kwargs = testcase.url_kwargs
 		tc_url_params = testcase.url_params
+		tc_url_params = '{}'
 		tc_url_kwargs_json = json.loads(tc_url_kwargs)
 		tc_url_params_json = json.loads(tc_url_params)
 		tc_url_kwargs_dict = json.dumps(tc_url_kwargs_json)

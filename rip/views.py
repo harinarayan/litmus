@@ -1,3 +1,5 @@
+import json
+
 from django.utils import timezone
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
@@ -16,6 +18,7 @@ from django.forms.models import inlineformset_factory
 
 from django.template import RequestContext
 
+from testengine import Evaluate
 
 # Service views
 class ServiceListView(ListView):
@@ -167,7 +170,14 @@ def submit_testcase(request, *args, **kwargs):
 	}, context_instance=RequestContext(request))
 
 def run_testcase(request, *args, **kwargs):
-	return HttpResponse()
+	service = Service.objects.get(pk=kwargs['id'])
+	operation = Operation.objects.get(pk=kwargs['operation_id'])
+	testcase = TestCase.objects.get(pk=kwargs['pk'])
+	
+	evaluate = Evaluate()
+	result = evaluate.evaluate_testcase(service, operation, testcase)
+
+	return HttpResponse(json.dumps(result), content_type="application/json")
 
 class TestCaseCreateView(CreateView):
 	model = TestCase
