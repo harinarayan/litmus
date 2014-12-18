@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block title %} Testcases {% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{% static 'jsoneditor/jsoneditor.min.css' %}"/>
+<style>
+#condition-tabl tr{
+	border:1px solid black;
+}
+</style>
+{% endblock styles %}
+
+{% block content %}
+<h2>{{add_edit}} Testcase</h2>
+<form action="" method="post">{% csrf_token %}
+	<table class="table table-condensed">
+		{% for field in form %}
+		<tr class="fieldWrapper">
+			<td>{{ field.label_tag }}</td>
+			<td>
+				{% if forloop.counter == 3 %}
+				Operation URL : {{operation.url}}
+				<br>
+				{% endif %}
+
+				{% if forloop.counter == 4 %}
+				<div id="jsoneditor" style="width: 400px; height: 400px; border:1px solid silver;">
+				</div>
+				<button id="use-json" class="btn btn-info">Use this JSON</button><br>
+				{% endif %}
+
+				{{ field }} {{ field.errors }}
+			</td>
+		</tr>
+		{% endfor %}
+	</table>
+	<h3>Result Test Conditions</h3>
+	
+	{{ condition_formset.management_form }}
+	{{ condition_formset.non_form_errors.as_ul }}
+	<table id="formset" class="form">
+	{% for form in condition_formset.forms %}
+		{% if forloop.first %}
+			<thead><tr>
+			{% for field in form.visible_fields %}
+			<th>{{ field.label|capfirst }}</th>
+			{% endfor %}
+			</tr></thead>
+		{% endif %}
+		<tr class="{% cycle row1,row2 %}">
+		{% for field in form.visible_fields %}
+			<td>
+			{# Include the hidden fields in the form #}
+			{% if forloop.first %}
+				{% for hidden in form.hidden_fields %}
+				{{ hidden }}
+				{% endfor %}
+			{% endif %}
+			{{ field.errors.as_ul }}
+			{{ field }}
+			</td>
+		{% endfor %}
+		</tr>
+	{% endfor %}
+	</table>
+
+
+	<br>
+	<input class="btn btn-success" type="submit" value="Submit" />
+</form>
+<br>
+<a href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase">Go back to testcases</a>
+<br>
+<br>
+{% endblock content%}
+
+{% block scripts %}
+<script type="text/javascript" src="{% static 'jsoneditor/jsoneditor.min.js' %}"></script>
+<script>
+$(function() {
+	var editor = new JSONEditor(document.getElementById("jsoneditor"))
+	var starter_json = {
+			'haha': 89,
+		};
+	if($('#id_input').text() !== ""){
+		starter_json = JSON.parse($('#id_input').text());
+	}
+	editor.set(starter_json);
+
+	$('#use-json').click(function(e){
+		var json = editor.get();
+		$('#id_input').text(JSON.stringify(json));
+		e.preventDefault();
+	});
+});
+
+</script>
+{% endblock scripts %}
+
+

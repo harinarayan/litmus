@@ -6,6 +6,9 @@ class Service(models.Model):
 	name = models.CharField(max_length=100)
 	host = models.CharField(max_length=64)
 	port = models.IntegerField(default=8080)
+
+	def __unicode__(self):
+		return self.name
 	
 class Operation(models.Model):
 	service = models.ForeignKey(Service)
@@ -21,16 +24,21 @@ class Operation(models.Model):
 		('PATCH','PATCH')
 	)
 	method = models.CharField(max_length=7, choices=METHOD_CHOICE, default='GET')
-	sample_json = models.CharField(max_length=400000)
+	sample_json = models.TextField(max_length=400000)
+
+	def __unicode__(self):
+		return self.name
 
 class TestCase(models.Model):
 	operation = models.ForeignKey(Operation)
 	name = models.CharField(max_length=100)
-	input = models.CharField(max_length=400000, null = True)
-	url_kwargs = models.CharField(max_length=500, null = True)
-	url_params = models.CharField(max_length=3000, null = True)
+	url_kwargs = models.TextField(max_length=500, null = True)
+	input = models.TextField(max_length=400000, null = True)
+	url_params = models.TextField(max_length=3000, null = True)
 	exp_http_response = models.IntegerField(default = 200)
-	exp_output = models.CharField(max_length=400000)
+
+	def __unicode__(self):
+		return self.name
 	
 class Condition(models.Model):
 	testcase = models.ForeignKey(TestCase)
@@ -43,3 +51,6 @@ class Condition(models.Model):
 	)
 	operator = models.CharField(max_length=19, choices=OPERATOR_CHOICE, default='EQ')
 	value = models.CharField(max_length=1000)
+
+	def __unicode__(self):
+		return self.name
