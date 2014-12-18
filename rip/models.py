@@ -53,4 +53,4 @@ class Condition(models.Model):
 	value = models.CharField(max_length=1000)
 
 	def __unicode__(self):
-		return self.name
+		return self.field + "|" + self.operator + "|" + self.value

@@ -1,4 +1,4 @@
-from mock_models import Service, Operation, TestCase, Condition
+from models import Service, Operation, TestCase, Condition
 import json
 import httplib
 from resultevaluator import ResultEvaluator
@@ -17,7 +17,7 @@ class Evaluate:
 		operation_method = operation.method
 		operation_url = self.get_complete_url(operation, testcase)
 		
-		server_output = self.get_server_output(host, port, operation_url, operation_method)
+		server_output = self.get_server_output(host, port, operation_url, operation_method, testcase.input)
 
 		if server_output["status"] != testcase.exp_http_response:
 			eval_result_list["status"] = "Failed"
@@ -56,10 +56,11 @@ class Evaluate:
 		eval_result_list["conditions"] = conditions_eval_result
 		return eval_result_list
 	
-	def get_server_output(self, host, port, url, method):
+	def get_server_output(self, host, port, url, method, input):
 		server_response = {}
 		conn = httplib.HTTPConnection(host, port)
-		conn.request(method, url)
+		headers = {"Content-Type":"application/json"}
+		conn.request(method, url, input, headers)
 		res = conn.getresponse()
 		server_response["status"] = res.status
 		server_response["reason"] = res.reason
@@ -94,35 +95,6 @@ class Evaluate:
 
 
 	def get_eval_conditions(self, testcase_id):
-		condition_list = []
-		condition = Condition()
-		condition.id = 1
-		condition.field = "transaction_request.merchant"
-		condition.operator = "EQ"
-		condition.value = "67235"
-		condition_list.append(condition)
-
-		condition = Condition()
-		condition.id = 2
-		condition.field = "transaction_request.merchant"
-		condition.operator = "NE"
-		condition.value = "67335"
-		condition_list.append(condition)
-
-		condition = Condition()
-		condition.id = 3
-		condition.field = "transaction_request.merchant"
-		condition.operator = "IN"
-		rval = [67335,673546,984763]
-		condition.value = rval
-		condition_list.append(condition)
-
-		condition = Condition()
-		condition.id = 4
-		condition.field = "transaction_request.merchant"
-		condition.operator = "NI"
-		rval = [67235,748373,89498,"alkddjd"]
-		condition.value = rval
-		condition_list.append(condition)
-
+		
+		condition_list = Condition.objects.all().filter(testcase=testcase_id)	
 		return condition_list
