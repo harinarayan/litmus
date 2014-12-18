@@ -1,10 +1,16 @@
 from django.utils import timezone
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
+#from django.core.urlresolvers import reverse
 
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView
+
 from rip.models import Service, Operation, TestCase
+
+from django import forms
+
 
 # Service views
 class ServiceListView(ListView):
@@ -15,8 +21,16 @@ class ServiceListView(ListView):
 		context['now'] = timezone.now()
 		return context
 
-def add_service(request):
-	return HttpResponse("")
+class ServiceForm(forms.ModelForm):
+	class Meta:
+		model = Service
+		fields = ['name', 'host', 'port']
+
+class ServiceCreateView(CreateView):
+	model = Service
+	template_name_suffix = '_create_form'
+	#form_class = ServiceForm
+	success_url = '/rip/service'
 
 def edit_service(request):
 	return HttpResponse("")
