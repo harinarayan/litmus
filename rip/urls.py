@@ -1,9 +1,9 @@
 from django.conf.urls import patterns, url
 
-from rip import views
+from rip.views import ServiceListView
 
 urlpatterns = patterns('',
-    url(r'^$', views.list_services, name='index'),
+    url(r'^$', ServiceListView.as_view(), name='service-list'),
     #url(r'^$', views.IndexView.as_view(), name='index'),
     #url(r'^(?P<pk>\d+)/$', views.DetailView.as_view(), name='detail'),
     #url(r'^(?P<pk>\d+)/results/$', views.ResultsView.as_view(), name='results'),

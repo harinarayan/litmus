@@ -1,9 +1,19 @@
+from django.utils import timezone
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 
-# Create your views here.
+from django.views.generic.list import ListView
+from rip.models import Service, Operation, TestCase
 
 # Service views
+class ServiceListView(ListView):
+	model = Service
+	
+	def get_context_data(self, **kwargs):
+		context = super(ServiceListView, self).get_context_data(**kwargs)
+		context['now'] = timezone.now()
+		return context
+
 def list_services(request):
 	return render(request, 'rip/list.html', {'name':'hey'})
 
