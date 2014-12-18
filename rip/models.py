@@ -32,9 +32,9 @@ class Operation(models.Model):
 class TestCase(models.Model):
 	operation = models.ForeignKey(Operation)
 	name = models.CharField(max_length=100)
-	url_kwargs = models.CharField(max_length=500, null = True)
+	url_kwargs = models.TextField(max_length=500, null = True)
 	input = models.TextField(max_length=400000, null = True)
-	url_params = models.CharField(max_length=3000, null = True)
+	url_params = models.TextField(max_length=3000, null = True)
 	exp_http_response = models.IntegerField(default = 200)
 
 	def __unicode__(self):

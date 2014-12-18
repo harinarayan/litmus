@@ -21,11 +21,17 @@
 		<tr class="fieldWrapper">
 			<td>{{ field.label_tag }}</td>
 			<td>
+				{% if forloop.counter == 3 %}
+				Operation URL : {{operation.url}}
+				<br>
+				{% endif %}
+
 				{% if forloop.counter == 4 %}
 				<div id="jsoneditor" style="width: 400px; height: 400px; border:1px solid silver;">
 				</div>
 				<button id="use-json" class="btn btn-info">Use this JSON</button><br>
 				{% endif %}
+
 				{{ field }} {{ field.errors }}
 			</td>
 		</tr>

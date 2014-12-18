@@ -163,6 +163,7 @@ def submit_testcase(request, *args, **kwargs):
 		"condition_formset": condition_formset,
 		"service_id":kwargs['id'],
 		"operation_id":kwargs['operation_id'],
+		"operation":Operation.objects.get(pk=kwargs['operation_id']),
 	}, context_instance=RequestContext(request))
 
 class TestCaseCreateView(CreateView):
