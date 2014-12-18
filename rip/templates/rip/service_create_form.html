@@ -5,10 +5,11 @@
 {% block content %}
 <h2>Add a new service</h2>
 <form action="" method="post">{% csrf_token %}
-	<hr>
+	<table class="table table-condensed">
 	{{ form.as_table }}
-	<hr>
-	<input type="submit" value="Add" />
+	</table>
+	<br>
+	<input class="btn btn-success" type="submit" value="Add" />
 </form>
 {% endblock content%}
 

@@ -71,7 +71,7 @@ class OperationDetailView(DetailView):
 class OperationForm(forms.ModelForm):
 	class Meta:
 		model = Operation
-		fields = ['name', 'url']
+		fields = ['name', 'url', 'method', 'sample_json']
 
 class OperationCreateView(CreateView):
 	model = Operation

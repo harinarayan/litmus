@@ -24,7 +24,7 @@ class Operation(models.Model):
 		('PATCH','PATCH')
 	)
 	method = models.CharField(max_length=7, choices=METHOD_CHOICE, default='GET')
-	sample_json = models.CharField(max_length=400000)
+	sample_json = models.TextField(max_length=400000)
 
 	def __unicode__(self):
 		return self.name
