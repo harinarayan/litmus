@@ -12,7 +12,8 @@
 			<td>{{service.host}}</td>
 			<td>{{service.port}}</td>
 			<td>
-				<a class="btn btn-info btn-xs" href="/rip/service/{{service.id}}/update">Edit</a>
+				<a class="btn btn-warning btn-xs" href="/rip/service/{{service.id}}/update">Edit</a>
+				<a class="btn btn-danger btn-xs" href="/rip/service/{{service.id}}/delete">Delete</a>
 			</td>
 		</tr>
 	{% endfor %}

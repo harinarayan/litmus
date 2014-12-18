@@ -1,11 +1,11 @@
 from django.utils import timezone
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-#from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse_lazy
 
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from rip.models import Service, Operation, TestCase
 
@@ -38,8 +38,9 @@ class ServiceUpdateView(UpdateView):
 	#form_class = ServiceForm
 	success_url = '/rip/service'
 
-def delete_service(request):
-	return HttpResponse("")
+class ServiceDeleteView(DeleteView):
+	model = Service
+	success_url = reverse_lazy('service-list')
 
 def test_service(request):
 	return HttpResponse("")

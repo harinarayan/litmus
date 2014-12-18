@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %} Services {% endblock %}
+
+{% block content %}
+<h2>Services</h2>
+<br>
+<br>
+<form action="" method="post">{% csrf_token %}
+	<p>Are you sure you want to delete "{{ object.name }}"?</p>
+	<br>
+	<input class="btn btn-danger" type="submit" value="Confirm" />
+</form>
+<br>
+<br>
+{% endblock content%}
