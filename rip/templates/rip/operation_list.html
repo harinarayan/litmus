@@ -15,7 +15,7 @@ thead {
 {% endblock styles %}
 
 {% block content %}
-<h2>Operations for service : {{service_id}}</h2>
+<h2>Operations for service : {{service.name}}</h2>
 <table class="table table-striped table-condensed" style="table-layout:fixed">
 	<thead>
 		<tr>
@@ -48,7 +48,10 @@ thead {
 </table>
 <br>
 <br>
-<a class="btn btn-success" href="/rip/service/{{service_id}}/operation/create">Add operation</a>
+<div class="row">
+	<a class="btn btn-success" href="/rip/service/{{service_id}}/operation/create">Add operation</a>
+	<a class="btn btn-info run-all" disabled>Run All</a>
+</div>
 <br>
 <br>
 <a href="/rip/service/">Go back to services</a>

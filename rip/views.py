@@ -67,6 +67,8 @@ class OperationListView(ListView):
 		context = super(OperationListView, self).get_context_data(**kwargs)
 		context['now'] = timezone.now()
 		context['service_id'] = self.kwargs['id']
+		service = Service.objects.get(pk=self.kwargs['id'])
+		context['service'] = service
 		return context
 
 class OperationDetailView(DetailView):
@@ -96,6 +98,8 @@ class OperationCreateView(CreateView):
 		context = super(OperationCreateView, self).get_context_data(**kwargs)
 		context['now'] = timezone.now()
 		context['add_edit'] = "Add"
+		service = Service.objects.get(pk=self.kwargs['id'])
+		context['service'] = service
 		return context
 
 	def get_initial(self):
@@ -112,6 +116,8 @@ class OperationUpdateView(UpdateView):
 		context = super(OperationUpdateView, self).get_context_data(**kwargs)
 		context['now'] = timezone.now()
 		context['add_edit'] = "Edit"
+		service = Service.objects.get(pk=self.kwargs['id'])
+		context['service'] = service
 		return context
 
 class OperationDeleteView(DeleteView):
@@ -133,7 +139,11 @@ class TestCaseListView(ListView):
 		context = super(TestCaseListView, self).get_context_data(**kwargs)
 		context['now'] = timezone.now()
 		context['service_id'] = self.kwargs['id']
+		service = Service.objects.get(pk=self.kwargs['id'])
+		context['service'] = service
 		context['operation_id'] = self.kwargs['operation_id']
+		operation = Operation.objects.get(pk=self.kwargs['operation_id'])
+		context['operation'] = operation
 		return context
 
 class TestCaseForm(forms.ModelForm):

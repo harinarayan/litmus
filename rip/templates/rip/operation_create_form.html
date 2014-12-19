@@ -9,7 +9,7 @@
 {% endblock styles %}
 
 {% block content %}
-<h2>{{add_edit}} operation</h2>
+<h2>{{add_edit}} operation for service : {{service.name}}</h2>
 <form action="" method="post">{% csrf_token %}
 	<table class="table table-condensed">
 		{% for field in form %}
