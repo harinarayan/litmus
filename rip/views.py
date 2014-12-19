@@ -1,4 +1,5 @@
 import json
+import re
 
 from django.utils import timezone
 from django.shortcuts import render, render_to_response
@@ -110,7 +111,6 @@ class OperationDeleteView(DeleteView):
 def test_operation(request):
 	return HttpResponse("")
 
-
 # TestCase views
 class TestCaseListView(ListView):
 	model = TestCase
@@ -127,6 +127,7 @@ class TestCaseListView(ListView):
 		return context
 
 class TestCaseForm(forms.ModelForm):
+	#url_kwargs = forms.MultiValueField(fields=(forms.CharField(max_length=20), forms.CharField(max_length=20)))
 	class Meta:
 		model = TestCase
 		fields = ['operation', 'name', 'url_kwargs', 'input', 'exp_http_response']
@@ -137,6 +138,13 @@ ConditionFormSet = inlineformset_factory(TestCase,
 		can_delete=True,
 		extra=1,
 		max_num=10)
+
+def get_starter_kwargs_json(url):
+	dictionary = {}
+	placeholders = re.findall('\{[^{}].+?\}', url)
+	for placeholder in placeholders:
+		dictionary[placeholder.strip('{}')] = ""
+	return json.dumps(dictionary, indent=2, separators=(',', ': '))
 
 def submit_testcase(request, *args, **kwargs):
 	condition_formset = None
@@ -163,6 +171,7 @@ def submit_testcase(request, *args, **kwargs):
 		else:
 			form = TestCaseForm()
 			form.fields['input'].initial=(operation.sample_json) #Get sample input from Operation and put it here.
+			form.fields['url_kwargs'].initial=get_starter_kwargs_json(operation.url) #Put kwargs starter JSON
 			testcase = TestCase()
 
 		condition_formset = ConditionFormSet(instance=testcase)
