@@ -10,6 +10,10 @@
 #condition-tabl tr{
 	border:1px solid black;
 }
+
+.result-display{
+	cursor:pointer;
+}
 </style>
 {% endblock styles %}
 
@@ -79,10 +83,12 @@
 <br>
 <br>
 You may 
-<a class="btn btn-info btn-xs" href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase/{{testcase_id}}/run"> Run this cestcase </a>
+<a class="btn btn-info btn-xs btn-run-tc" id="{{testcase_id}}" href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase/{{testcase_id}}/run"> Run this cestcase </a>
  or 
 <a href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase"> go back to see all testcases</a>
 <br>
+<div class="result-display alert" style="position:fixed; top:25px; z-index:2; width:80%;">
+</div>
 <br>
 {% endblock content%}
 
@@ -92,7 +98,7 @@ You may
 $(function() {
 	var editor = new JSONEditor(document.getElementById("jsoneditor"))
 	var starter_json = {
-			'haha': 89,
+			'': '',
 		};
 	if($('#id_input').text() !== ""){
 		starter_json = JSON.parse($('#id_input').text());
@@ -104,6 +110,48 @@ $(function() {
 		$('#id_input').text(JSON.stringify(json));
 		e.preventDefault();
 	});
+
+	$('.result-display').click(function(e){
+		$(this).hide();
+	});
+
+	$('.btn-run-tc').click(function(e){
+                var tc = $(this).attr('id');
+                var url = $(this).attr('href');
+                execute_tc(tc, url);
+                e.preventDefault();
+        });
+
+	function execute_tc(tc, url){
+		$('.result-display').show();
+		$('.result-display').empty();
+		$.get(url, function(data, status, jqXHR, string) {
+			//handle_session_expiry(jqXHR);
+			if(data['status'] == "Passed"){
+				$('.result-display').css({'background-color':'lightgreen'})
+				$('.result-display').append(data['status']);
+			}else{
+				$('.result-display').css({'background-color':'pink'})
+				$('.result-display').empty();
+				$('.result-display').append(data['reason']).append('<br><br>');
+				$.each(data['conditions'], function(key, value){
+					if( value['status'] === "Failed"){
+						$('.result-display').append(value['reason']);
+					}
+				});
+			}
+		}).fail(function(data, status){
+			var msg = '';
+			if(typeof data.responseText != 'undefined'){
+				msg = data.status + ' ' + data.statusText
+			}else{
+				msg = 'No response from server!';
+			}
+
+			$('.result-display').css({'background-color':'pink'})
+		});
+	}
+	
 });
 
 </script>
