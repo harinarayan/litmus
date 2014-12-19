@@ -33,9 +33,9 @@
 				{% endif %}
 
 				{% if forloop.counter == 4 %}
-				<div id="jsoneditor" style="width: 600px; height: 400px; border:1px solid silver;">
+				<div id="jsoneditor" class="col-md-4" style="width:600px; height:400px; border:0px solid silver;display:inline;">
 				</div>
-				<button id="use-json" class="btn btn-info col-md-offset-1">Use this JSON <i class="fa fa-angle-double-down"></i></button><br>
+				<button id="use-json" class="btn btn-info btn-sm" style="display:inline;position:relative;top:-95px;"><i class="fa fa-angle-double-right"></i></button>
 				{% endif %}
 
 				{{ field }} {{ field.errors }}
@@ -83,7 +83,7 @@
 <br>
 <br>
 You may 
-<a class="btn btn-info btn-xs btn-run-tc" id="{{testcase_id}}" href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase/{{testcase_id}}/run"> Run this cestcase </a>
+<a class="btn btn-info btn-xs btn-run-tc" id="{{testcase_id}}" href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase/{{testcase_id}}/run"> Run this testcase </a>
  or 
 <a href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase"> go back to see all testcases</a>
 <br>
