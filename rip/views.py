@@ -78,12 +78,17 @@ class OperationDetailView(DetailView):
 		return context
 
 class OperationForm(forms.ModelForm):
+	#service = forms.ChoiceField(choices=Service.objects.all())
 	class Meta:
 		model = Operation
-		fields = ['name', 'url', 'method', 'sample_json']
+		fields = ['service', 'name', 'url', 'method', 'sample_json']
+		widgets = {
+			'service': forms.Select(attrs={'disabled':True}),
+		}
 
 class OperationCreateView(CreateView):
 	model = Operation
+	form_class = OperationForm
 	template_name_suffix = '_create_form'
 	success_url = '/rip/service/%(service_id)s/operation/'
 	
@@ -92,6 +97,11 @@ class OperationCreateView(CreateView):
 		context['now'] = timezone.now()
 		context['add_edit'] = "Add"
 		return context
+
+	def get_initial(self):
+		return {
+			'service':self.kwargs['id'],
+			}
 
 class OperationUpdateView(UpdateView):
 	model = Operation
@@ -175,6 +185,9 @@ def submit_testcase(request, *args, **kwargs):
 			testcase = TestCase()
 
 		condition_formset = ConditionFormSet(instance=testcase)
+
+	form.fields['operation'].initial = operation.id
+	form.fields['operation'].widget.attrs['disabled'] = True
 
 	return render_to_response("rip/testcase_create_form.html", {
 		"form": form,
