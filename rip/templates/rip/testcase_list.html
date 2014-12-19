@@ -30,7 +30,7 @@ thead {
 	</thead>
 	<tbody>
 	{% for testcase in object_list %}
-		<tr>
+		<tr id={{testcase.id}} class="tc-row">
 			<td>{{testcase.id}}</td>
 			<td>{{testcase.name}}</td>
 			<td class="col-md-4 json">{{testcase.input|truncatechars:200}}</td>
@@ -43,6 +43,7 @@ thead {
 			<td>
 				<a class="btn btn-warning btn-xs" href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase/{{testcase.id}}/update">Edit</a>
 				<a class="btn btn-danger btn-xs" href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase/{{testcase.id}}/delete">Delete</a>
+				<a class="btn btn-danger btn-xs" href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase/{{testcase.id}}/delete" disabled>Clone</a>
 			</td>
 
 		</tr>
@@ -52,7 +53,10 @@ thead {
 	</tbody>
 </table>
 <br>
-<a class="btn btn-success" href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase/create">Add testcase</a>
+<div class="row">
+	<a class="btn btn-success" href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase/create">Add testcase</a>
+	<a class="btn btn-info run-all">Run All</a>
+</div>
 <br>
 <br>
 <a href="/rip/service/{{service_id}}/operation/">Go back to operation</a>
@@ -62,8 +66,22 @@ thead {
 <script>
 $(function() {
 	$('.btn-run-tc').click(function(e){
-		var this_ref = $(this);
-		var url = $(this).attr('href');
+		var tc = $(this).parents('tr').attr('id');
+		execute_tc(tc);
+		e.preventDefault();
+	});
+
+	$('.run-all').click(function(e){
+		$.each($('.tc-row'), function(index, row){
+			execute_tc($(this).attr('id'));
+		});
+		e.preventDefault();
+	});
+
+
+	function execute_tc(tc){
+		var this_ref = $('#'+tc).find('.btn-run-tc');
+		var url = this_ref.attr('href');
 
 		$.get(url, function(data, status, jqXHR, string) {
 			//handle_session_expiry(jqXHR);
@@ -71,6 +89,7 @@ $(function() {
 				this_ref.parents('tr').css({'background-color':'lightgreen'})
 			}else{
 				this_ref.parents('tr').css({'background-color':'pink'})
+				this_ref.parents('td').siblings('.tc-result').empty();
 				this_ref.parents('td').siblings('.tc-result').append(data['reason']).append('<br><br>');
 				$.each(data['conditions'], function(key, value){
 					if( value['status'] === "Failed"){
@@ -87,10 +106,7 @@ $(function() {
 			}
 			this_ref.parents('tr').css({'background-color':'pink'})
 		});
-
-
-		e.preventDefault();
-	});
+	}
 });
 </script>
 {% endblock scripts %}
