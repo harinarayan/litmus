@@ -61,11 +61,36 @@ thead {
 {% block scripts %}
 <script>
 $(function() {
-	/*
 	$('.btn-run-tc').click(function(e){
-		$(this).attr('href')
+		var this_ref = $(this);
+		var url = $(this).attr('href');
+
+		$.get(url, function(data, status, jqXHR, string) {
+			//handle_session_expiry(jqXHR);
+			if(data['status'] == "Passed"){
+				this_ref.parents('tr').css({'background-color':'lightgreen'})
+			}else{
+				this_ref.parents('tr').css({'background-color':'pink'})
+				this_ref.parents('td').siblings('.tc-result').append(data['reason']).append('<br><br>');
+				$.each(data['conditions'], function(key, value){
+					if( value['status'] === "Failed"){
+						this_ref.parents('td').siblings('.tc-result').append(value['reason']);
+					}
+				});
+			}
+		}).fail(function(data, status){
+			var msg = '';
+			if(typeof data.responseText != 'undefined'){
+				msg = data.status + ' ' + data.statusText
+			}else{
+				msg = 'No response from server!';
+			}
+			this_ref.parents('tr').css({'background-color':'pink'})
+		});
+
+
+		e.preventDefault();
 	});
-	*/
 });
 </script>
 {% endblock scripts %}

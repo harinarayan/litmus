@@ -82,9 +82,9 @@ class OperationForm(forms.ModelForm):
 	class Meta:
 		model = Operation
 		fields = ['service', 'name', 'url', 'method', 'sample_json']
-		widgets = {
-			'service': forms.Select(attrs={'disabled':True}),
-		}
+		#widgets = {
+			#'service': forms.Select(attrs={'disabled':True}),
+		#}
 
 class OperationCreateView(CreateView):
 	model = Operation
@@ -187,7 +187,7 @@ def submit_testcase(request, *args, **kwargs):
 		condition_formset = ConditionFormSet(instance=testcase)
 
 	form.fields['operation'].initial = operation.id
-	form.fields['operation'].widget.attrs['disabled'] = True
+	#form.fields['operation'].widget.attrs['disabled'] = True
 
 	return render_to_response("rip/testcase_create_form.html", {
 		"form": form,
