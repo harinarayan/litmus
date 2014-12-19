@@ -24,18 +24,22 @@ thead {
 			<td>URL</td>
 			<td>Method</td>
 			<td class="col-md-4">Input Template</td>
+			<td class="col-md-1">Run</td>
 			<td>
 			</td>	
 		</tr>
 	</thead>
 	<tbody>
 	{% for operation in object_list %}
-		<tr>
+		<tr id="{{operation.id}}" class="op-row">
 			<td>{{operation.id}}</td>
 			<td><a href="/rip/service/{{service_id}}/operation/{{operation.id}}/testcase">{{operation.name}}</a></td>
 			<td>{{operation.url}}</td>
 			<td>{{operation.method}}</td>
 			<td class="col-md-4 json">{{operation.sample_json|truncatechars:200 }}</td>
+			<td class="col-md-1">
+				<a class="btn btn-info btn-xs btn-run-op" href="/rip/service/{{service_id}}/operation/{{operation.id}}/run">Run</a>
+                        </td>
 			<td>
 				<a class="btn btn-warning btn-xs" href="/rip/service/{{service_id}}/operation/{{operation.id}}/update">Edit</a>
 				<a class="btn btn-danger btn-xs" href="/rip/service/{{service_id}}/operation/{{operation.id}}/delete">Delete</a>
@@ -50,9 +54,52 @@ thead {
 <br>
 <div class="row">
 	<a class="btn btn-success" href="/rip/service/{{service_id}}/operation/create">Add operation</a>
-	<a class="btn btn-info run-all" disabled>Run All</a>
+	<a class="btn btn-info run-all" >Run All</a>
 </div>
 <br>
 <br>
 <a href="/rip/service/">Go back to services</a>
 {% endblock content%}
+
+{% block scripts %}
+<script>
+$(function() {
+	$('.btn-run-op').click(function(e){
+		var op = $(this).parents('tr').attr('id');
+		execute_op(op);
+		e.preventDefault();
+	});
+
+	$('.run-all').click(function(e){
+		$.each($('.op-row'), function(index, row){
+			execute_op($(this).attr('id'));
+		});
+		e.preventDefault();
+	});
+
+
+	function execute_op(op){
+		var this_ref = $('#'+op).find('.btn-run-op');
+		var url = this_ref.attr('href');
+
+		$.get(url, function(data, status, jqXHR, string) {
+			//handle_session_expiry(jqXHR);
+			if(data['status'] == "Passed"){
+				this_ref.parents('tr').css({'background-color':'lightgreen'})
+			}else{
+				this_ref.parents('tr').css({'background-color':'pink'})
+			}
+		}).fail(function(data, status){
+			var msg = '';
+			if(typeof data.responseText != 'undefined'){
+				msg = data.status + ' ' + data.statusText
+			}else{
+				msg = 'No response from server!';
+			}
+			this_ref.parents('tr').css({'background-color':'pink'})
+		});
+	}
+});
+</script>
+{% endblock scripts %}
+

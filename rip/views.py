@@ -124,8 +124,21 @@ class OperationDeleteView(DeleteView):
 	model = Operation
 	success_url = '/rip/service/%(service_id)s/operation/'
 
-def test_operation(request):
-	return HttpResponse("")
+def run_operation(request, *args, **kwargs):
+	response = {"status":"Passed"}
+
+	service = Service.objects.get(pk=kwargs['id'])
+	operation = Operation.objects.get(pk=kwargs['pk'])
+	testcases = TestCase.objects.all().filter(operation_id=kwargs['pk'])
+	
+	evaluate = Evaluate()
+	for tc in testcases:
+		result = evaluate.evaluate_testcase(service, operation, tc)
+		if result['status'] == "Failed":
+			response['status'] = "Failed"
+			break
+
+	return HttpResponse(json.dumps(response), content_type="application/json")
 
 # TestCase views
 class TestCaseListView(ListView):
