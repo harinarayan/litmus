@@ -197,6 +197,9 @@ def submit_testcase(request, *args, **kwargs):
 				testcase.save()
 				condition_formset.save()                
 				return HttpResponseRedirect(reverse('testcase-update', kwargs={'id':kwargs['id'], 'operation_id':kwargs['operation_id'], 'pk':testcase.id}))
+		else:
+			testcase = TestCase()
+			condition_formset = ConditionFormSet(request.POST, instance=testcase)
 	else: # Create or Update, show form 
 		if 'pk' in kwargs: # Update form
 			testcase = TestCase.objects.get(pk=kwargs['pk'])
