@@ -38,7 +38,7 @@ class ResultEvaluator:
 				return return_dict
 			else:
 				return_dict["status"] = "Failed"
-				return_dict["reason"] = "Expected value => " + converted_expected_value + " Actual value => " + actual_json_value[0]
+				return_dict["reason"] = "Field => " + json_expression + " Expected value => " + converted_expected_value + " Actual value => " + actual_json_value[0]
 				return return_dict
 		elif operator == "NE":
 			if converted_expected_value != actual_json_value[0]:
@@ -46,7 +46,7 @@ class ResultEvaluator:
 				return return_dict
 			else:
 				return_dict["status"] = "Failed"
-				return_dict["reason"] = "Expected value => " + converted_expected_value + " Actual value => " + actual_json_value[0]
+				return_dict["reason"] = "Field => " + json_expression + " Expected value => " + converted_expected_value + " Actual value => " + actual_json_value[0]
 				return return_dict
 
 		elif operator == "IN":
@@ -55,7 +55,7 @@ class ResultEvaluator:
 				return return_dict
 			else:
 				return_dict["status"] = "Failed"
-				return_dict["reason"] = "Expected value list => " + ', '.join(str(value) for value in converted_expected_value_list) + " Actual value => " + actual_json_value[0]
+				return_dict["reason"] = "Field => " + json_expression + " Expected value list => " + ', '.join(str(value) for value in converted_expected_value_list) + " Actual value => " + actual_json_value[0]
 				return return_dict
 
 		elif operator == "NI":
@@ -64,7 +64,7 @@ class ResultEvaluator:
 				return return_dict
 			else:
 				return_dict["status"] = "Failed"
-				return_dict["reason"] = "Expected value list => " + ', '.join(str(value) for value in converted_expected_value_list) + " Actual value => " + actual_json_value[0]
+				return_dict["reason"] = "Field => " + json_expression + " Expected value list => " + ', '.join(str(value) for value in converted_expected_value_list) + " Actual value => " + actual_json_value[0]
 				return return_dict
 		else:
 			return_dict["status"] = "Failed"
