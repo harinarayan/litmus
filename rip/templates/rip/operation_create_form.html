@@ -38,6 +38,21 @@
 <script type="text/javascript" src="{% static 'jsoneditor/jsoneditor.min.js' %}"></script>
 <script>
 $(function() {
+	var method = $('#id_method').val()
+	if (method == "GET"){
+		$('#id_sample_json').parents('tr').hide();
+	}else{
+		$('#id_sample_json').parents('tr').show();
+	}
+	$('#id_method').change(function(e){
+		method = $(this).val()
+		if (method == "GET"){
+			$('#id_sample_json').parents('tr').hide();
+		}else{
+			$('#id_sample_json').parents('tr').show();
+		}
+	});
+	
 	var editor = new JSONEditor(document.getElementById("jsoneditor"))
 	var starter_json = {
 			'haha': 89,
