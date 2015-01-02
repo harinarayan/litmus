@@ -15,11 +15,21 @@
 </head>
 <body>
 	<div class="container">
-		<div class="row">
-			<h1 class="col-md-2 text-right" style="background-color:salmon;height:47px;"> LITMUS </h1>
-			<h1 class="col-md-3 text-left" style="background-color:deepskyblue;height:47px"> REST in peace</h1>
-			<h6 class="col-md-5 text-left" ><br><br><em>A REST service test suite.</em></h6>
-		</div>
+		<table class="table">
+			<tr>
+				<td style="background-color:salmon;" class="text-right col-md-2" >
+					<h1>LITMUS</h1>
+				</td>
+				<td style="background-color:deepskyblue;" class="col-md-3">
+					<h1>REST in peace</h1>
+				</td>
+				<td style="" valign="baseline">
+					<br>
+					<br>
+					<strong><em>A REST service test suite.</em></strong>
+				</td>
+			</tr>
+		</table>
 		<br>
 		{% block content %}
 		Booo!
