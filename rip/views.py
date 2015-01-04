@@ -21,6 +21,9 @@ from django.template import RequestContext
 
 from testengine import Evaluate
 
+def home(request):
+	return HttpResponseRedirect(reverse('service-list'))
+
 # Service views
 class ServiceListView(ListView):
 	model = Service
