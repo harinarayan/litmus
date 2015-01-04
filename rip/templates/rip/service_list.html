@@ -16,6 +16,8 @@
 				<a class="btn btn-danger btn-xs" href="/rip/service/{{service.id}}/delete">Delete</a>
 			</td>
 		</tr>
+	{% empty %}
+		<em>No services!</em>
 	{% endfor %}
 </table>
 <br>

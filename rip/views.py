@@ -167,6 +167,9 @@ class TestCaseForm(forms.ModelForm):
 	class Meta:
 		model = TestCase
 		fields = ['operation', 'name', 'url_kwargs', 'input', 'exp_http_response']
+		labels = {
+			'url_kwargs' : "URL positional parameter values",
+		}
 
 MAX_CONDITIONS = 10
 ConditionFormSet = inlineformset_factory(TestCase, 

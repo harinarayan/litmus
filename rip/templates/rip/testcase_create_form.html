@@ -14,6 +14,10 @@
 .result-display{
 	cursor:pointer;
 }
+
+.textarea{
+	display: inline;
+}
 </style>
 {% endblock styles %}
 
@@ -33,9 +37,9 @@
 				{% endif %}
 
 				{% if forloop.counter == 4 %}
-				<div id="jsoneditor" class="col-md-4" style="width:600px; height:400px; border:0px solid silver;display:inline;">
+				<div id="jsoneditor" class="col-md-4" style="width:500px; height:400px; border:0px solid silver;display:inline;">
 				</div>
-				<button id="use-json" class="btn btn-info btn-sm" style="display:inline;position:relative;top:-95px;"><i class="fa fa-angle-double-right"></i></button>
+				<button id="use-json" class="btn btn-info btn-sm" style="display:inline;"><i class="fa fa-angle-double-right"></i></button>
 				{% endif %}
 
 				{{ field }} {{ field.errors }}
@@ -82,9 +86,11 @@
 </form>
 <br>
 <br>
+{% if testcase_id %}
 You may 
 <a class="btn btn-info btn-xs btn-run-tc" id="{{testcase_id}}" href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase/{{testcase_id}}/run"> Run this testcase </a>
  or 
+{% endif %}
 <a href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase"> go back to see all testcases</a>
 <br>
 <div class="result-display alert" style="position:fixed; top:25px; z-index:2; width:80%;">

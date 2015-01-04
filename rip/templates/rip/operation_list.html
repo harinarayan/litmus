@@ -17,6 +17,7 @@ thead {
 {% block content %}
 <h2>Operations for service : {{service.name}}</h2>
 <table class="table table-striped table-condensed" style="table-layout:fixed">
+	{% if object_list %}
 	<thead>
 		<tr>
 			<td>Id</td>
@@ -29,6 +30,7 @@ thead {
 			</td>	
 		</tr>
 	</thead>
+	{% endif %}
 	<tbody>
 	{% for operation in object_list %}
 		<tr id="{{operation.id}}" class="op-row">
@@ -54,7 +56,9 @@ thead {
 <br>
 <div class="row">
 	<a class="btn btn-success" href="/rip/service/{{service_id}}/operation/create">Add operation</a>
+	{% if object_list %}
 	<a class="btn btn-info run-all" >Run All</a>
+	{% endif %}
 </div>
 <br>
 <br>
