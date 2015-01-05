@@ -234,9 +234,14 @@ def run_testcase(request, *args, **kwargs):
 	service = Service.objects.get(pk=kwargs['id'])
 	operation = Operation.objects.get(pk=kwargs['operation_id'])
 	testcase = TestCase.objects.get(pk=kwargs['pk'])
+	result = {}
 	
 	evaluate = Evaluate()
-	result = evaluate.evaluate_testcase(service, operation, testcase)
+	try:
+		result = evaluate.evaluate_testcase(service, operation, testcase)
+	except Exception as e:
+		result['status'] = 'Failed'
+		result['reason'] = str(e)
 
 	return HttpResponse(json.dumps(result), content_type="application/json")
 

@@ -20,11 +20,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = '&jid_dhs%*@u5=zm)b8i4!fr@ge86yr)-lz=i@vbecu&jnjmd7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 TEMPLATE_DEBUG = DEBUG
 
-ALLOWED_HOSTS = ['litmus-3347.lvs01.dev.ebayc3.com']
+ALLOWED_HOSTS = ['litmus-3347.lvs01.dev.ebayc3.com', 'localhost']
 
 
 # Application definition
