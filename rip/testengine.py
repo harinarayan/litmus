@@ -58,7 +58,7 @@ class Evaluate:
 	
 	def get_server_output(self, host, port, url, method, input):
 		server_response = {}
-		conn = httplib.HTTPConnection(host, port)
+		conn = httplib.HTTPSConnection(host, port)
 		headers = {"Content-Type":"application/json"}
 		conn.request(method, url, input, headers)
 		res = conn.getresponse()

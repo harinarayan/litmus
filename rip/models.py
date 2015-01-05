@@ -6,6 +6,11 @@ class Service(models.Model):
 	name = models.CharField(max_length=100)
 	host = models.CharField(max_length=64)
 	port = models.IntegerField(default=8080)
+	PROTOCOL_CHOICE = (
+		('HTTP', 'HTTP'),
+		('HTTPS', 'HTTPS'),
+	)
+	protocol = models.CharField(max_length=5, choices=PROTOCOL_CHOICE, default='HTTPS')
 
 	def __unicode__(self):
 		return self.name
