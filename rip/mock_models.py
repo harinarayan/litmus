@@ -3,6 +3,7 @@ class Service:
 	name = "testrest"
 	host = "10.64.209.110"
 	port = "8080"
+	protocol = "HTTP"
 
 class Operation:
 	name = "getTxn"

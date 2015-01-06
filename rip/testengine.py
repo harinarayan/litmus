@@ -12,12 +12,7 @@ class Evaluate:
 
 	def evaluate_testcase(self, service, operation, testcase):
 		eval_result_list={}
-		host = service.host
-		port = service.port
-		operation_method = operation.method
-		operation_url = self.get_complete_url(operation, testcase)
-		
-		server_output = self.get_server_output(host, port, operation_url, operation_method, testcase.input)
+		server_output = self.get_server_output(service, operation, testcase)
 
 		if server_output["status"] != testcase.exp_http_response:
 			eval_result_list["status"] = "Failed"
@@ -54,14 +49,26 @@ class Evaluate:
 			eval_result_list["reason"] = "One or More Condition evaluation Failed"
 
 		eval_result_list["conditions"] = conditions_eval_result
+		
 		return eval_result_list
 	
-	def get_server_output(self, host, port, url, method, input):
-		server_response = {}
-		conn = httplib.HTTPSConnection(host, port)
-		headers = {"Content-Type":"application/json"}
-		conn.request(method, url, input, headers)
+	def get_server_output(self, service, operation, testcase):
+		connection_dict = {'HTTP' : httplib.HTTPConnection, 'HTTPS' : httplib.HTTPSConnection}
+
+		host = service.host
+		port = service.port
+		protocol = service.protocol
+
+		operation_url = self.get_complete_url(operation, testcase)
+		operation_method = operation.method
+		
+		input = testcase.input
+
+		conn = connection_dict[protocol](host, port)
+		conn.request(operation_method, operation_url, input, headers)
 		res = conn.getresponse()
+
+		server_response = {}
 		server_response["status"] = res.status
 		server_response["reason"] = res.reason
 		server_response["json_data"] = res.read()
