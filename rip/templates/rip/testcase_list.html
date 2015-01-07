@@ -92,6 +92,7 @@ $(function() {
 			//handle_session_expiry(jqXHR);
 			if(data['status'] == "Passed"){
 				this_ref.parents('tr').css({'background-color':'lightgreen'})
+				this_ref.parents('td').siblings('.tc-result').empty();
 			}else{
 				this_ref.parents('tr').css({'background-color':'pink'})
 				this_ref.parents('td').siblings('.tc-result').empty();
