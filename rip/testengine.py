@@ -65,6 +65,16 @@ class Evaluate:
 
 		input = testcase.input
 
+		# This enforcement has been done to match ssl version used for our service. TODO - clean this up
+		import ssl
+		from functools import partial
+
+		class fake_ssl:
+			wrap_socket = partial(ssl.wrap_socket, ssl_version=ssl.PROTOCOL_TLSv1)
+
+		httplib.ssl = fake_ssl
+		# Done
+
 		conn = connection_dict[protocol](host, port)
 		conn.request(operation_method, operation_url, input, json.loads(headers))
 		res = conn.getresponse()
@@ -78,7 +88,7 @@ class Evaluate:
 		
 	
 	def get_complete_url(self, operation, testcase):
-		opetation_url = operation.url
+		opetation_url = "/" + operation.url
 
 		tc_url_kwargs = testcase.url_kwargs
 		tc_url_params = testcase.url_params
