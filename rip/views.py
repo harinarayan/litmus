@@ -86,7 +86,7 @@ class OperationForm(forms.ModelForm):
 	#service = forms.ChoiceField(choices=Service.objects.all())
 	class Meta:
 		model = Operation
-		fields = ['service', 'name', 'url', 'method', 'sample_json']
+		fields = ['service', 'name', 'url', 'method', 'sample_json', 'headers']
 		#widgets = {
 			#'service': forms.Select(attrs={'disabled':True}),
 		#}

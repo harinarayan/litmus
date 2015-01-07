@@ -30,6 +30,7 @@ class Operation(models.Model):
 	)
 	method = models.CharField(max_length=7, choices=METHOD_CHOICE, default='GET')
 	sample_json = models.TextField(max_length=400000, default='{}')
+	headers = models.TextField(max_length=1000, default='{"Content-Type":"application/json"}')
 
 	def __unicode__(self):
 		return self.name
