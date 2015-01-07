@@ -10,6 +10,7 @@ class Operation:
 	url = "/orch-poc/v1/getTxn/{txnId}"
 	method = "GET"
 	sample_json = ''
+	headers = '{"Content-Type":"application/json"}'
 
 class TestCase:
 	name = "testCountry"

@@ -61,11 +61,12 @@ class Evaluate:
 
 		operation_url = self.get_complete_url(operation, testcase)
 		operation_method = operation.method
-		
+		headers = operation.headers
+
 		input = testcase.input
 
 		conn = connection_dict[protocol](host, port)
-		conn.request(operation_method, operation_url, input, headers)
+		conn.request(operation_method, operation_url, input, json.loads(headers))
 		res = conn.getresponse()
 
 		server_response = {}
