@@ -85,6 +85,7 @@ $(function() {
 	function execute_op(op){
 		var this_ref = $('#'+op).find('.btn-run-op');
 		var url = this_ref.attr('href');
+		this_ref.parents('tr').css({'background-color':'sandybrown'})
 
 		$.get(url, function(data, status, jqXHR, string) {
 			//handle_session_expiry(jqXHR);

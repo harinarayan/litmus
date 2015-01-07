@@ -86,6 +86,7 @@ $(function() {
 	function execute_tc(tc){
 		var this_ref = $('#'+tc).find('.btn-run-tc');
 		var url = this_ref.attr('href');
+		this_ref.parents('tr').css({'background-color':'sandybrown'})
 
 		$.get(url, function(data, status, jqXHR, string) {
 			//handle_session_expiry(jqXHR);
