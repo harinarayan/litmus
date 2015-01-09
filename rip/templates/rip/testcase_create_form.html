@@ -139,13 +139,15 @@ $(function() {
 			}else{
 				$('.result-display').css({'background-color':'pink'})
 				$('.result-display').empty();
-				$('.result-display').append(data['reason']).append('<br><br>');
+				$('.result-display').append(data['status']);
+				$('.result-display').append('<br><br>').append("Reason : " + data['reason']);
 				$.each(data['conditions'], function(key, value){
 					if( value['status'] === "Failed"){
-						$('.result-display').append(value['reason']);
+						$('.result-display').append('<br>').append(value['reason']);
 					}
 				});
 			}
+			$('.result-display').append('<br><br>').append("Raw Response : " + data['raw_response_body']);
 		}).fail(function(data, status){
 			var msg = '';
 			if(typeof data.responseText != 'undefined'){
