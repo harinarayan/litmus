@@ -14,7 +14,7 @@ class Evaluate:
 		eval_result_list={}
 		server_output = self.get_server_output(service, operation, testcase)
 
-		eval_result_list["server_output"] = server_output["json_data"]
+		eval_result_list["raw_response_body"] = server_output["json_data"]
 
 		if server_output["status"] != testcase.exp_http_response:
 			eval_result_list["status"] = "Failed"
