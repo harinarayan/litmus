@@ -11,8 +11,15 @@
 	border:1px solid black;
 }
 
+#result-alert{
+	position:fixed;
+	top:25px;
+	z-index:20;
+	width:80%;
+}
 .result-display{
 	cursor:pointer;
+	word-wrap:break-word;
 }
 
 .textarea{
@@ -22,6 +29,11 @@
 {% endblock styles %}
 
 {% block content %}
+<div id="result-alert" class="alert alert-warning alert-dismissible" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	<div class="result-display"></div>
+</div>
+<br>
 <h2>{{add_edit}} Testcase for operation : {{operation.name}} - {{operation.method}} - {{operation.url|truncatechars:'25'}}</h2>
 <form action="" method="post">{% csrf_token %}
 	<table class="table table-condensed">
@@ -93,8 +105,7 @@ You may
 {% endif %}
 <a href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase"> go back to see all testcases</a>
 <br>
-<div class="result-display alert" style="position:fixed; top:25px; z-index:2; width:80%;">
-</div>
+<br>
 <br>
 {% endblock content%}
 
@@ -117,8 +128,9 @@ $(function() {
 		e.preventDefault();
 	});
 
-	$('.result-display').click(function(e){
-		$(this).hide();
+	$('#result-alert').hide();
+	$('#result-alert .close').click(function(e){
+		$('#result-alert').hide();
 	});
 
 	$('.btn-run-tc').click(function(e){
@@ -129,15 +141,19 @@ $(function() {
         });
 
 	function execute_tc(tc, url){
-		$('.result-display').show();
+		$('#result-alert').show();
 		$('.result-display').empty();
 		$.get(url, function(data, status, jqXHR, string) {
 			//handle_session_expiry(jqXHR);
 			if(data['status'] == "Passed"){
-				$('.result-display').css({'background-color':'lightgreen'})
+				//$('.result-display').css({'background-color':'lightgreen'})
+				$('#result-alert').removeClass();
+				$('#result-alert').addClass("alert alert-dismissible alert-success");
 				$('.result-display').append(data['status']);
 			}else{
-				$('.result-display').css({'background-color':'pink'})
+				$('#result-alert').removeClass();
+				$('#result-alert').addClass("alert alert-dismissible alert-danger");
+				//$('.result-display').css({'background-color':'pink'})
 				$('.result-display').empty();
 				$('.result-display').append(data['status']);
 				$('.result-display').append('<br><br>').append("Reason : " + data['reason']);
@@ -156,7 +172,9 @@ $(function() {
 				msg = 'No response from server!';
 			}
 
-			$('.result-display').css({'background-color':'pink'})
+			$('#result-alert').removeClass();
+			$('#result-alert').addClass("alert alert-dismissible alert-danger");
+			//$('.result-display').css({'background-color':'pink'})
 		});
 	}
 	
