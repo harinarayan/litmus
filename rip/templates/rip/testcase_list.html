@@ -34,7 +34,7 @@ thead {
 	{% for testcase in object_list %}
 		<tr id={{testcase.id}} class="tc-row">
 			<td>{{testcase.id}}</td>
-			<td>{{testcase.name}}</td>
+			<td><a href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase/{{testcase.id}}/update">{{testcase.name}}</a></td>
 			<td class="col-md-4 json">{{testcase.input|truncatechars:200}}</td>
 			<td>{{testcase.exp_http_response}}</td>
 			<td class="col-md-1">
