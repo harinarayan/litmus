@@ -19,12 +19,26 @@
 			<td>{{ field.label_tag }}</td>
 			<td>
 				{% if forloop.counter == 5 %}
-				<div id="jsoneditor" class="col-md-4" style="width:600px; height:400px; border:0px solid silver;display:inline;">
+			
+				<div class="row">
+					<div id="jsoneditor" class="col-md-4" style="width:500px; height:400px; border:0px solid silver;">
+					</div>
+					<div class="col-md-1">
+						<br>
+						<br>
+						<br>
+						<button id="use-json" class="btn btn-info">OK <i class="fa fa-angle-double-right"></i></button>
+					</div>
+					<div class="col-md-4">
+					{{ field }} {{ field.errors }}
+					</div>
 				</div>
-				<button id="use-json" class="btn btn-info btn-sm" style="display:inline;position:relative;top:-95px;"><i class="fa fa-angle-double-right"></i></button>
-				{% endif %}
+
+				{% else %}
 
 				{{ field }} {{ field.errors }}
+
+				{% endif %}
 			</td>
 		</tr>
 		{% endfor %}

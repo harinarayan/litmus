@@ -31,7 +31,7 @@
 {% block content %}
 <div id="result-alert" class="alert alert-warning alert-dismissible" role="alert">
 	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	<div class="result-display"></div>
+	<div class="result-display">Wait...</div>
 </div>
 <br>
 <h2>{{add_edit}} Testcase for operation : {{operation.name}} - {{operation.method}} - {{operation.url|truncatechars:'25'}}</h2>
@@ -42,19 +42,32 @@
 			<td>{{ field.label_tag }}</td>
 			<td>
 				{% if forloop.counter == 3 %}
+
 				Operation URL : <strong>{{operation.url}}</strong>
 				<br>
 				<small>In the below text box provide a json with placeholders as keys and their values.</small>
 				<br>
-				{% endif %}
-
-				{% if forloop.counter == 4 %}
-				<div id="jsoneditor" class="col-md-4" style="width:500px; height:400px; border:0px solid silver;display:inline;">
-				</div>
-				<button id="use-json" class="btn btn-info btn-sm" style="display:inline;"><i class="fa fa-angle-double-right"></i></button>
-				{% endif %}
-
 				{{ field }} {{ field.errors }}
+
+				{% elif forloop.counter == 4 %}
+
+				<div class="row">
+					<div id="jsoneditor" class="col-md-4" style="width:500px; height:400px; border:0px solid silver;">
+					</div>
+					<div class="col-md-1">
+						<br>
+						<br>
+						<br>
+						<button id="use-json" class="btn btn-info bn-sm">OK <i class="fa fa-angle-double-right"></i></button>
+					</div>
+					<div class="col-md-4">
+						{{ field }} {{ field.errors }}
+					</div>
+				</div>
+
+				{% else %}
+				{{ field }} {{ field.errors }}
+				{% endif %}
 			</td>
 		</tr>
 		{% endfor %}
