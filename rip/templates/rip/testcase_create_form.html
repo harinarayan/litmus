@@ -155,9 +155,9 @@ $(function() {
 
 	function execute_tc(tc, url){
 		$('#result-alert').show();
-		$('.result-display').empty();
+		$('.result-display').empty().append("Wait...");
 		$.get(url, function(data, status, jqXHR, string) {
-			//handle_session_expiry(jqXHR);
+			$('.result-display').empty();
 			if(data['status'] == "Passed"){
 				//$('.result-display').css({'background-color':'lightgreen'})
 				$('#result-alert').removeClass();
@@ -187,6 +187,7 @@ $(function() {
 
 			$('#result-alert').removeClass();
 			$('#result-alert').addClass("alert alert-dismissible alert-danger");
+			$('.result-display').empty().append(msg);
 			//$('.result-display').css({'background-color':'pink'})
 		});
 	}
