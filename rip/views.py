@@ -280,6 +280,8 @@ class TestCaseDiffView(TemplateView):
 		list_of_lines1 = (json.dumps(json1, sort_keys=True, indent=4, separators=(',', ': '))).split('\n')
 		list_of_lines2 = (json.dumps(json2, sort_keys=True, indent=4, separators=(',', ': '))).split('\n')
 		htmldiff = difflib.HtmlDiff()
+		context['service_id'] = kwargs['id']
+		context['operation_id'] = kwargs['operation_id']
 		context['testcase1'] = testcase1
 		context['testcase2'] = testcase2
 		context['difftable'] = htmldiff.make_table(list_of_lines1, list_of_lines2, testcase1.name, testcase2.name, context=True);

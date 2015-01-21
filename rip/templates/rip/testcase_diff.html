@@ -40,12 +40,19 @@ th.diff_header {
 
 {% block content %}
 <h2>Input JSON Diff</h2>
-<h3>between testcases <strong>{{testcase1.name}}</strong> and <strong>{{testcase2.name}}</strong> </h3>
-<br>
+<h4>
+	between testcases 
+	<strong><a href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase/{{testcase1.id}}/update">{{testcase1.name}}</a></strong>
+	 and 
+	<strong><a href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase/{{testcase2.id}}/update">{{testcase2.name}}</a></strong>
+</h4>
 <br>
 <div>
 	{{difftable|safe}}
 </div>
+<br>
+<a href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase/">go back to list of testcases</a>
+<br>
 <br>
 <br>
 {% endblock content%}

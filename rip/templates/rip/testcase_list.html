@@ -11,6 +11,9 @@ thead {
 td, .json, .tc-result {
 	word-wrap: break-word;
 }
+.tc-diff{
+	background-color:chocolate;
+}
 </style>
 {% endblock styles %}
 
@@ -20,7 +23,7 @@ td, .json, .tc-result {
 	{% if object_list %}
 	<thead>
 		<tr>
-			<td>ID</td>
+			<td><input type="checkbox" class="check" name="check_all"> ID</td>
 			<td>Name</td>
 			<td class="col-md-4 json">Input</td>
 			<td>Expected HTTP Response</td>
@@ -33,7 +36,7 @@ td, .json, .tc-result {
 	<tbody>
 	{% for testcase in object_list %}
 		<tr id={{testcase.id}} class="tc-row">
-			<td>{{testcase.id}}</td>
+			<td><input class="check" type="checkbox" name="{{testcase.id}}"> {{testcase.id}}</td>
 			<td><a href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase/{{testcase.id}}/update">{{testcase.name}}</a></td>
 			<td class="col-md-4 json">{{testcase.input|truncatechars:200}}</td>
 			<td>{{testcase.exp_http_response}}</td>
@@ -60,6 +63,7 @@ td, .json, .tc-result {
 	{% if object_list %}
 	<a class="btn btn-primary run-all">Run All</a>
 	{% endif %}
+	<a class="btn btn-primary tc-diff">Compare input JSONs</a>
 </div>
 <br>
 <br>
@@ -115,6 +119,27 @@ $(function() {
 			this_ref.parents('tr').css({'background-color':'pink'})
 		});
 	}
+
+	//Diff button
+	$('.tc-diff').click(function(e){
+		if($('tr input[type=checkbox]:checked').length != 2){
+			alert("Select Two");
+			return;
+		}
+		var testcase_id_1 = $('tr input[type=checkbox]:checked').first().attr('name');
+		var testcase_id_2 = $('tr input[type=checkbox]:checked').last().attr('name');
+			
+		var path = window.location.href;
+		window.location = path + "/diff/" + testcase_id_1 + "/" + testcase_id_2;
+		e.preventDefault();
+	});
+	$('thead .check').click(function(e){
+		if($(this).is(":checked")){
+			$('tbody .check').prop('checked', true);
+		}else{
+			$('tbody .check').prop('checked', false);
+		}
+	});
 });
 </script>
 {% endblock scripts %}
