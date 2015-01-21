@@ -138,6 +138,11 @@ $(function() {
 	$('#use-json').click(function(e){
 		var json = editor.get();
 		$('#id_input').text(JSON.stringify(json));
+		$('#id_input').animate({
+			opacity: "0.25",
+		}, "fast").animate({
+			opacity: "1.00",
+		}, "fast");
 		e.preventDefault();
 	});
 
