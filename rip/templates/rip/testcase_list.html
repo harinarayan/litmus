@@ -8,7 +8,7 @@ thead {
 	background-color:gray;
 	color:white;
 }
-.json, .tc-result {
+td, .json, .tc-result {
 	word-wrap: break-word;
 }
 </style>
@@ -38,14 +38,14 @@ thead {
 			<td class="col-md-4 json">{{testcase.input|truncatechars:200}}</td>
 			<td>{{testcase.exp_http_response}}</td>
 			<td class="col-md-1">
-				<a class="btn btn-info btn-xs btn-run-tc" href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase/{{testcase.id}}/run">Run</a>
+				<a class="btn btn-primary btn-xs btn-run-tc" href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase/{{testcase.id}}/run">Run</a>
 			</td>
 			<td class="tc-result">
 			</td>
 			<td>
-				<a class="btn btn-warning btn-xs" href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase/{{testcase.id}}/update">Edit</a>
-				<a class="btn btn-danger btn-xs" href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase/{{testcase.id}}/delete">Delete</a>
-				<a class="btn btn-danger btn-xs" href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase/{{testcase.id}}/delete" disabled>Clone</a>
+				<a class="btn btn-warning btn-xs col-sm-6" href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase/{{testcase.id}}/update">Edit</a>
+				<a class="btn btn-danger btn-xs col-sm-6" href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase/{{testcase.id}}/delete">Delete</a>
+				<a class="btn btn-info btn-xs col-sm-6" href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase/{{testcase.id}}/clone">Clone</a>
 			</td>
 
 		</tr>
@@ -58,12 +58,14 @@ thead {
 <div class="row">
 	<a class="btn btn-success" href="/rip/service/{{service_id}}/operation/{{operation_id}}/testcase/create">Add testcase</a>
 	{% if object_list %}
-	<a class="btn btn-info run-all">Run All</a>
+	<a class="btn btn-primary run-all">Run All</a>
 	{% endif %}
 </div>
 <br>
 <br>
 <a href="/rip/service/{{service_id}}/operation/">Go back to operation</a>
+<br>
+<br>
 {% endblock content%}
 
 {% block scripts %}

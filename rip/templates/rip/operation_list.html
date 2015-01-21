@@ -40,7 +40,7 @@ td {
 			<td>{{operation.method}}</td>
 			<td class="col-md-4 json">{{operation.sample_json|truncatechars:200 }}</td>
 			<td class="col-md-1">
-				<a class="btn btn-info btn-xs btn-run-op" href="/rip/service/{{service_id}}/operation/{{operation.id}}/run">Run</a>
+				<a class="btn btn-primary btn-xs btn-run-op" href="/rip/service/{{service_id}}/operation/{{operation.id}}/run">Run</a>
                         </td>
 			<td>
 				<a class="btn btn-warning btn-xs" href="/rip/service/{{service_id}}/operation/{{operation.id}}/update">Edit</a>
@@ -57,7 +57,7 @@ td {
 <div class="row">
 	<a class="btn btn-success" href="/rip/service/{{service_id}}/operation/create">Add operation</a>
 	{% if object_list %}
-	<a class="btn btn-info run-all" >Run All</a>
+	<a class="btn btn-primary run-all" >Run All</a>
 	{% endif %}
 </div>
 <br>

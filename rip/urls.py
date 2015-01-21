@@ -2,9 +2,10 @@ from django.conf.urls import patterns, url
 
 from rip.views import ServiceListView, OperationListView, TestCaseListView
 from rip.views import OperationDetailView
-from rip.views import ServiceCreateView, OperationCreateView, TestCaseCreateView
-from rip.views import ServiceUpdateView, OperationUpdateView, TestCaseUpdateView
+from rip.views import ServiceCreateView, OperationCreateView
+from rip.views import ServiceUpdateView, OperationUpdateView
 from rip.views import ServiceDeleteView, OperationDeleteView, TestCaseDeleteView
+from rip.views import TestCaseCloneView
 from rip.views import submit_testcase, run_testcase, run_operation
 
 urlpatterns = patterns('',
@@ -26,6 +27,7 @@ urlpatterns = patterns('',
     url(r'^service/(?P<id>\d+)/operation/(?P<operation_id>\d+)/testcase/create/?$', submit_testcase, name='testcase-create'),
     url(r'^service/(?P<id>\d+)/operation/(?P<operation_id>\d+)/testcase/(?P<pk>\d+)/update/?$', submit_testcase, name='testcase-update'),
     url(r'^service/(?P<id>\d+)/operation/(?P<operation_id>\d+)/testcase/(?P<pk>\d+)/delete/?$', TestCaseDeleteView.as_view(), name='testcase-delete'),
+    url(r'^service/(?P<id>\d+)/operation/(?P<operation_id>\d+)/testcase/(?P<pk>\d+)/clone/?$', TestCaseCloneView.as_view(), name='testcase-clone'),
     url(r'^service/(?P<id>\d+)/operation/(?P<operation_id>\d+)/testcase/(?P<pk>\d+)/run/?$', run_testcase, name='testcase-run'),
 )
 

@@ -8,6 +8,7 @@ from django.core.urlresolvers import reverse_lazy, reverse
 
 from django.views.decorators.csrf import csrf_protect
 
+from django.views.generic import View
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -244,6 +245,27 @@ def run_testcase(request, *args, **kwargs):
 		result['reason'] = str(e)
 
 	return HttpResponse(json.dumps(result), content_type="application/json")
+
+class TestCaseCloneView(View):
+	def get(self, request, *args, **kwargs):
+		#Copy the test case object
+		clone = TestCase.objects.get(pk=kwargs['pk'])
+		clone.pk = None
+		clone.name = clone.name + "_copy"
+		clone.save()
+
+		#Now copy all the related Condition objects.
+		condition_list = Condition.objects.all().filter(testcase_id = self.kwargs['pk'])
+		for c in condition_list:
+			c.pk = None
+			c.testcase = clone
+			c.save()
+
+		#Redirect to list of testcases.
+		ka = {}
+		ka['id'] = kwargs['id'] #service id
+		ka['operation_id'] = kwargs['operation_id']
+		return HttpResponseRedirect(reverse('testcase-list', args=[], kwargs=ka))
 
 class TestCaseCreateView(CreateView):
 	model = TestCase
