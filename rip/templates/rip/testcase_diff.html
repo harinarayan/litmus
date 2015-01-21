@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %} TestCase Diff {% endblock %}
+
+{% block styles %}
+<style>
+.diff_header{
+        background-color:lightgrey;
+}
+.diff_add{
+        background-color:lightgreen;
+}
+.diff_chg{
+        background-color:gold;
+}
+.diff_sub{
+        background-color:lightpink;
+}
+.diff_next{
+        background-color:lightgrey;
+	font-weight:bold;
+	text-align:center;
+}
+.diff_next > a{
+	font-weight:bold;
+}
+table.diff{
+	border: 1px solid black;
+	font-family:monospace;
+}
+td.diff_header {
+	text-align:right;
+}
+th.diff_header {
+	text-align:center;
+}
+</style>
+{% endblock styles %}
+
+
+{% block content %}
+<h2>Input JSON Diff</h2>
+<h3>between testcases <strong>{{testcase1.name}}</strong> and <strong>{{testcase2.name}}</strong> </h3>
+<br>
+<br>
+<div>
+	{{difftable|safe}}
+</div>
+<br>
+<br>
+{% endblock content%}
+
+{% block scripts %}
+<script>
+$(function() {
+	$('table.diff').addClass('table table-condensed');
+	//$('.diff_next > a').addClass('btn btn-xs');
+	$('.diff_next > a').each(function(index){
+		if ($(this).text() === "f"){
+			$(this).text("first");
+		}
+		if ($(this).text() === "n"){
+			$(this).text("next");
+		}
+		if ($(this).text() === "t"){
+			$(this).text("top");
+		}
+	});
+	$('.diff_add').each(function(index){
+		$(this).parents('tr').addClass('success');
+	});
+	$('.diff_chg').each(function(index){
+		$(this).parents('tr').addClass('warning');
+	});
+	$('.diff_sub').each(function(index){
+		$(this).parents('tr').addClass('danger');
+	});
+});
+</script>
+{% endblock scripts %}
+

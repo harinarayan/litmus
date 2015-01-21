@@ -1,4 +1,5 @@
 import json
+import difflib
 import re
 
 from django.utils import timezone
@@ -8,7 +9,7 @@ from django.core.urlresolvers import reverse_lazy, reverse
 
 from django.views.decorators.csrf import csrf_protect
 
-from django.views.generic import View
+from django.views.generic import View, TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -266,6 +267,23 @@ class TestCaseCloneView(View):
 		ka['id'] = kwargs['id'] #service id
 		ka['operation_id'] = kwargs['operation_id']
 		return HttpResponseRedirect(reverse('testcase-list', args=[], kwargs=ka))
+
+class TestCaseDiffView(TemplateView):
+	template_name = 'rip/testcase_diff.html'
+	
+	def get_context_data(self, **kwargs):
+		context = super(TestCaseDiffView, self).get_context_data(**kwargs)
+		testcase1 = TestCase.objects.get(pk=kwargs['testcase1'])
+		testcase2 = TestCase.objects.get(pk=kwargs['testcase2'])
+		json1 = json.loads(testcase1.input)
+		json2 = json.loads(testcase2.input)
+		list_of_lines1 = (json.dumps(json1, sort_keys=True, indent=4, separators=(',', ': '))).split('\n')
+		list_of_lines2 = (json.dumps(json2, sort_keys=True, indent=4, separators=(',', ': '))).split('\n')
+		htmldiff = difflib.HtmlDiff()
+		context['testcase1'] = testcase1
+		context['testcase2'] = testcase2
+		context['difftable'] = htmldiff.make_table(list_of_lines1, list_of_lines2, testcase1.name, testcase2.name, context=True);
+		return context
 
 class TestCaseCreateView(CreateView):
 	model = TestCase
