@@ -8,7 +8,7 @@ thead {
 	background-color:gray;
 	color:white;
 }
-td, .json, .tc-result {
+td {
 	word-wrap: break-word;
 }
 .tc-diff{
@@ -75,6 +75,7 @@ td, .json, .tc-result {
 {% block scripts %}
 <script>
 $(function() {
+	// Run TC
 	$('.btn-run-tc').click(function(e){
 		var tc = $(this).parents('tr').attr('id');
 		execute_tc(tc);
