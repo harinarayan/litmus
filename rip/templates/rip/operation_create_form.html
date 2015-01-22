@@ -73,6 +73,11 @@ $(function() {
 	$('#use-json').click(function(e){
 		var json = editor.get();
 		$('#id_sample_json').text(JSON.stringify(json));
+		$('#id_sample_json').animate({
+			opacity: "0.25",
+		}, "fast").animate({
+			opacity: "1.00",
+		}, "fast");
 		e.preventDefault();
 	});
 });
