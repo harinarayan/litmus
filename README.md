@@ -186,6 +186,9 @@ $ service apache2 restart
 ```
 
 ## Product backlog
-* TLS/SSL version selection
-* import & export
+* TLS/SSL version selection at service level
+* users and accounts, LDAP authorization etc.
+* import & export testcases 
+  * between installations of litmus
+  * from/to other automation suites
 * history & trending
