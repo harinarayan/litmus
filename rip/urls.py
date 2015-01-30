@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, url
+from django.contrib.auth.decorators import login_required
 
 from rip.views import ServiceListView, OperationListView, TestCaseListView
 from rip.views import OperationDetailView
@@ -9,9 +10,9 @@ from rip.views import TestCaseCloneView, TestCaseDiffView
 from rip.views import submit_testcase, run_testcase, run_operation
 
 urlpatterns = patterns('',
-    url(r'^$', ServiceListView.as_view(), name='service-list'),
+    url(r'^$', login_required(ServiceListView.as_view()), name='service-list'),
 
-    url(r'^service/?$', ServiceListView.as_view(), name='service-list'),
+    url(r'^service/?$', login_required(ServiceListView.as_view()), name='service-list'),
     url(r'^service/create/?$', ServiceCreateView.as_view(), name='service-create'),
     url(r'^service/(?P<pk>\d+)/update/?$', ServiceUpdateView.as_view(), name='service-update'),
     url(r'^service/(?P<pk>\d+)/delete/?$', ServiceDeleteView.as_view(), name='service-delete'),
