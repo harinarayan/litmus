@@ -86,13 +86,9 @@ class OperationDetailView(DetailView):
 		return context
 
 class OperationForm(forms.ModelForm):
-	#service = forms.ChoiceField(choices=Service.objects.all())
 	class Meta:
 		model = Operation
-		fields = ['service', 'name', 'url', 'method', 'sample_json', 'headers']
-		#widgets = {
-			#'service': forms.Select(attrs={'disabled':True}),
-		#}
+		fields = ['name', 'url', 'method', 'sample_json', 'headers']
 
 class OperationCreateView(CreateView):
 	model = Operation
@@ -108,13 +104,16 @@ class OperationCreateView(CreateView):
 		context['service'] = service
 		return context
 
-	def get_initial(self):
-		return {
-			'service':self.kwargs['id'],
-			}
+	def form_valid(self, form):
+		# This method is called when valid form data has been POSTed.
+		# It should return an HttpResponse.
+		form.instance.service_id = self.kwargs['id']
+		return super(OperationCreateView, self).form_valid(form)
+
 
 class OperationUpdateView(UpdateView):
 	model = Operation
+	form_class = OperationForm
 	template_name = 'rip/operation_create_form.html'
 	success_url = '/rip/service/%(service_id)s/operation/'
 
@@ -125,6 +124,12 @@ class OperationUpdateView(UpdateView):
 		service = Service.objects.get(pk=self.kwargs['id'])
 		context['service'] = service
 		return context
+
+	def form_valid(self, form):
+		# This method is called when valid form data has been POSTed.
+		# It should return an HttpResponse.
+		form.instance.service_id = self.kwargs['id']
+		return super(OperationUpdateView, self).form_valid(form)
 
 class OperationDeleteView(DeleteView):
 	model = Operation
